@@ -30,10 +30,7 @@
   "module": "dist/vfg.esm.js",
   "browser": "dist/vfg.js",
   "unpkg": "dist/vfg.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cknow/vfg"
-  },
+  "repository": "https://github.com/cknow/vfg.git",
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c",
     "commit": "commit",
