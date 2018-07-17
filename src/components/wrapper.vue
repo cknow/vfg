@@ -46,8 +46,9 @@
 
         v-bind="config.attrs"
         v-on="config.events"
-        v-html="config.html"
-    />
+    >
+        {{ config.html }}
+    </component>
     <component
         v-else-if="config.text && config.enabled"
 
