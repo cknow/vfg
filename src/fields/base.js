@@ -1,5 +1,4 @@
 import isFunction from 'lodash/isFunction';
-import objGet from 'lodash/get';
 
 export default {
     props: {
@@ -16,7 +15,7 @@ export default {
                 if (isFunction(this.schema.get)) {
                     val = this.schema.get.call(null, this);
                 } else if (this.model && this.schema.model) {
-                    val = objGet(this.model, this.schema.model);
+                    val = this.model[this.schema.model];
                 } else if (this.schema.value) {
                     val = this.schema.value;
                 }
