@@ -4446,124 +4446,123 @@
       }
   };
 
-  var __vue_script__ = script;
+  /* script */
+              var __vue_script__ = script;
               
   /* template */
-  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.config.wrapper && _vm.config.enabled)?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id}},'component',_vm.config.attrs,false),_vm.config.events),[_vm._l((_vm.config.prepend),function(p,index){return (p.enabled)?_c('wrapper',{key:'p'+index,attrs:{"options":p,"field":_vm.field}}):_vm._e()}),_vm._v(" "),_vm._l((_vm.config.wrapper),function(option,index){return (option && option.enabled)?_c('wrapper',{key:index,attrs:{"options":option,"field":_vm.field}},[_vm._t("default")],2):_vm._t("default")}),_vm._v(" "),_vm._l((_vm.config.append),function(a,index){return (a.enabled)?_c('wrapper',{key:'a'+index,attrs:{"options":a,"field":_vm.field}}):_vm._e()})],2):(_vm.config.html && _vm.config.enabled)?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id},domProps:{"innerHTML":_vm._s(_vm.config.html)}},'component',_vm.config.attrs,false),_vm.config.events)):(_vm.config.text && _vm.config.enabled)?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id},domProps:{"textContent":_vm._s(_vm.config.text)}},'component',_vm.config.attrs,false),_vm.config.events)):(_vm.config.enabled)?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id}},'component',_vm.config.attrs,false),_vm.config.events),[_vm._l((_vm.config.prepend),function(p,index){return (p.enabled)?_c('wrapper',{key:'p'+index,attrs:{"options":p,"field":_vm.field}}):_vm._e()}),_vm._v(" "),_vm._t("default"),_vm._v(" "),_vm._l((_vm.config.append),function(a,index){return (a.enabled)?_c('wrapper',{key:'a'+index,attrs:{"options":a,"field":_vm.field}}):_vm._e()})],2):_vm._e()};
+  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.config.wrapper && _vm.config.enabled)?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id}},'component',_vm.config.attrs,false),_vm.config.events),[_vm._l((_vm.config.prepend),function(p,index){return (p.enabled)?_c('wrapper',{key:'p'+index,attrs:{"options":p,"field":_vm.field}}):_vm._e()}),_vm._v(" "),_vm._l((_vm.config.wrapper),function(option,index){return (option && option.enabled)?_c('wrapper',{key:index,attrs:{"options":option,"field":_vm.field}},[_vm._t("default")],2):_vm._t("default")}),_vm._v(" "),_vm._l((_vm.config.append),function(a,index){return (a.enabled)?_c('wrapper',{key:'a'+index,attrs:{"options":a,"field":_vm.field}}):_vm._e()})],2):(_vm.config.html && _vm.config.enabled)?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id}},'component',_vm.config.attrs,false),_vm.config.events),[_vm._v("\n    "+_vm._s(_vm.config.html)+"\n")]):(_vm.config.text && _vm.config.enabled)?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id},domProps:{"textContent":_vm._s(_vm.config.text)}},'component',_vm.config.attrs,false),_vm.config.events)):(_vm.config.enabled)?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id}},'component',_vm.config.attrs,false),_vm.config.events),[_vm._l((_vm.config.prepend),function(p,index){return (p.enabled)?_c('wrapper',{key:'p'+index,attrs:{"options":p,"field":_vm.field}}):_vm._e()}),_vm._v(" "),_vm._t("default"),_vm._v(" "),_vm._l((_vm.config.append),function(a,index){return (a.enabled)?_c('wrapper',{key:'a'+index,attrs:{"options":a,"field":_vm.field}}):_vm._e()})],2):_vm._e()};
   var __vue_staticRenderFns__ = [];
 
-  var __vue_template__ = typeof __vue_render__ !== 'undefined'
-    ? { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ }
-    : {};
-  /* style */
-  var __vue_inject_styles__ = undefined;
-  /* scoped */
-  var __vue_scope_id__ = undefined;
-  /* module identifier */
-  var __vue_module_identifier__ = undefined;
-  /* functional template */
-  var __vue_is_functional_template__ = false;
-  /* component normalizer */
-  function __vue_normalize__(
-    template, style, script$$1,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    var component = (typeof script$$1 === 'function' ? script$$1.options : script$$1) || {};
+    /* style */
+    var __vue_inject_styles__ = undefined;
+    /* scoped */
+    var __vue_scope_id__ = undefined;
+    /* module identifier */
+    var __vue_module_identifier__ = undefined;
+    /* functional template */
+    var __vue_is_functional_template__ = false;
+    /* component normalizer */
+    function __vue_normalize__(
+      template, style, script$$1,
+      scope, functional, moduleIdentifier,
+      createInjector, createInjectorSSR
+    ) {
+      var component = (typeof script$$1 === 'function' ? script$$1.options : script$$1) || {};
 
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
+      if (!component.render) {
+        component.render = template.render;
+        component.staticRenderFns = template.staticRenderFns;
+        component._compiled = true;
 
-      if (functional) { component.functional = true; }
+        if (functional) { component.functional = true; }
+      }
+
+      component._scopeId = scope;
+
+      return component
     }
+    /* style inject */
+    function __vue_create_injector__() {
+      var head = document.head || document.getElementsByTagName('head')[0];
+      var styles = __vue_create_injector__.styles || (__vue_create_injector__.styles = {});
+      var isOldIE =
+        typeof navigator !== 'undefined' &&
+        /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
 
-    component._scopeId = scope;
+      return function addStyle(id, css) {
+        if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
 
-    return component
-  }
-  /* style inject */
-  function __vue_create_injector__() {
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var styles = __vue_create_injector__.styles || (__vue_create_injector__.styles = {});
-    var isOldIE =
-      typeof navigator !== 'undefined' &&
-      /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
+        var group = isOldIE ? css.media || 'default' : id;
+        var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
 
-    return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
+        if (!style.ids.includes(id)) {
+          var code = css.source;
+          var index = style.ids.length;
 
-      var group = isOldIE ? css.media || 'default' : id;
-      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+          style.ids.push(id);
 
-      if (!style.ids.includes(id)) {
-        var code = css.source;
-        var index = style.ids.length;
-
-        style.ids.push(id);
-
-        if (css.map) {
-          // https://developer.chrome.com/devtools/docs/javascript-debugging
-          // this makes source maps inside style tags work properly in Chrome
-          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-          // http://stackoverflow.com/a/26603875
-          code +=
-            '\n/*# sourceMappingURL=data:application/json;base64,' +
-            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
-            ' */';
-        }
-
-        if (isOldIE) {
-          style.element = style.element || document.querySelector('style[data-group=' + group + ']');
-        }
-
-        if (!style.element) {
-          var el = style.element = document.createElement('style');
-          el.type = 'text/css';
-
-          if (css.media) { el.setAttribute('media', css.media); }
-          if (isOldIE) {
-            el.setAttribute('data-group', group);
-            el.setAttribute('data-next-index', '0');
+          if (css.map) {
+            // https://developer.chrome.com/devtools/docs/javascript-debugging
+            // this makes source maps inside style tags work properly in Chrome
+            code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+            // http://stackoverflow.com/a/26603875
+            code +=
+              '\n/*# sourceMappingURL=data:application/json;base64,' +
+              btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+              ' */';
           }
 
-          head.appendChild(el);
-        }
+          if (isOldIE) {
+            style.element = style.element || document.querySelector('style[data-group=' + group + ']');
+          }
 
-        if (isOldIE) {
-          index = parseInt(style.element.getAttribute('data-next-index'));
-          style.element.setAttribute('data-next-index', index + 1);
-        }
+          if (!style.element) {
+            var el = style.element = document.createElement('style');
+            el.type = 'text/css';
 
-        if (style.element.styleSheet) {
-          style.parts.push(code);
-          style.element.styleSheet.cssText = style.parts
-            .filter(Boolean)
-            .join('\n');
-        } else {
-          var textNode = document.createTextNode(code);
-          var nodes = style.element.childNodes;
-          if (nodes[index]) { style.element.removeChild(nodes[index]); }
-          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
-          else { style.element.appendChild(textNode); }
+            if (css.media) { el.setAttribute('media', css.media); }
+            if (isOldIE) {
+              el.setAttribute('data-group', group);
+              el.setAttribute('data-next-index', '0');
+            }
+
+            head.appendChild(el);
+          }
+
+          if (isOldIE) {
+            index = parseInt(style.element.getAttribute('data-next-index'));
+            style.element.setAttribute('data-next-index', index + 1);
+          }
+
+          if (style.element.styleSheet) {
+            style.parts.push(code);
+            style.element.styleSheet.cssText = style.parts
+              .filter(Boolean)
+              .join('\n');
+          } else {
+            var textNode = document.createTextNode(code);
+            var nodes = style.element.childNodes;
+            if (nodes[index]) { style.element.removeChild(nodes[index]); }
+            if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+            else { style.element.appendChild(textNode); }
+          }
         }
       }
     }
-  }
-  /* style inject SSR */
+    /* style inject SSR */
+    
 
-
-  var wrapper = __vue_normalize__(
-    __vue_template__,
-    __vue_inject_styles__,
-    typeof __vue_script__ === 'undefined' ? {} : __vue_script__,
-    __vue_scope_id__,
-    __vue_is_functional_template__,
-    __vue_module_identifier__,
-    typeof __vue_create_injector__ !== 'undefined' ? __vue_create_injector__ : function () {},
-    typeof __vue_create_injector_ssr__ !== 'undefined' ? __vue_create_injector_ssr__ : function () {}
-  )
+    
+    var wrapper = __vue_normalize__(
+      { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+      __vue_inject_styles__,
+      __vue_script__,
+      __vue_scope_id__,
+      __vue_is_functional_template__,
+      __vue_module_identifier__,
+      __vue_create_injector__,
+      undefined
+    );
 
   //
 
@@ -4713,124 +4712,123 @@
       }
   };
 
-  var __vue_script__$1 = script$1;
+  /* script */
+              var __vue_script__$1 = script$1;
               
   /* template */
   var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.field.group || _vm.field.row)?_c('wrapper',{attrs:{"options":_vm.field.group || _vm.field.row,"field":_vm.field}},_vm._l(((_vm.field.group ? _vm.field.group.fields : _vm.field.row.fields)),function(value,index){return _c('container',{key:index,attrs:{"form-options":_vm.formOptions,"model":_vm.model,"schema":value,"is-group":Boolean(_vm.field.group),"is-row":Boolean(_vm.field.row)}})})):_c('wrapper',{attrs:{"options":_vm.field.wrapper,"field":_vm.field}},[_c(_vm.fieldType,{tag:"component",attrs:{"form-options":_vm.options,"model":_vm.model,"schema":_vm.field},on:{"model-updated":_vm.modelUpdated}})],1)};
   var __vue_staticRenderFns__$1 = [];
 
-  var __vue_template__$1 = typeof __vue_render__$1 !== 'undefined'
-    ? { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 }
-    : {};
-  /* style */
-  var __vue_inject_styles__$1 = undefined;
-  /* scoped */
-  var __vue_scope_id__$1 = undefined;
-  /* module identifier */
-  var __vue_module_identifier__$1 = undefined;
-  /* functional template */
-  var __vue_is_functional_template__$1 = false;
-  /* component normalizer */
-  function __vue_normalize__$1(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    var component = (typeof script === 'function' ? script.options : script) || {};
+    /* style */
+    var __vue_inject_styles__$1 = undefined;
+    /* scoped */
+    var __vue_scope_id__$1 = undefined;
+    /* module identifier */
+    var __vue_module_identifier__$1 = undefined;
+    /* functional template */
+    var __vue_is_functional_template__$1 = false;
+    /* component normalizer */
+    function __vue_normalize__$1(
+      template, style, script,
+      scope, functional, moduleIdentifier,
+      createInjector, createInjectorSSR
+    ) {
+      var component = (typeof script === 'function' ? script.options : script) || {};
 
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
+      if (!component.render) {
+        component.render = template.render;
+        component.staticRenderFns = template.staticRenderFns;
+        component._compiled = true;
 
-      if (functional) { component.functional = true; }
+        if (functional) { component.functional = true; }
+      }
+
+      component._scopeId = scope;
+
+      return component
     }
+    /* style inject */
+    function __vue_create_injector__$1() {
+      var head = document.head || document.getElementsByTagName('head')[0];
+      var styles = __vue_create_injector__$1.styles || (__vue_create_injector__$1.styles = {});
+      var isOldIE =
+        typeof navigator !== 'undefined' &&
+        /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
 
-    component._scopeId = scope;
+      return function addStyle(id, css) {
+        if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
 
-    return component
-  }
-  /* style inject */
-  function __vue_create_injector__$1() {
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var styles = __vue_create_injector__$1.styles || (__vue_create_injector__$1.styles = {});
-    var isOldIE =
-      typeof navigator !== 'undefined' &&
-      /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
+        var group = isOldIE ? css.media || 'default' : id;
+        var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
 
-    return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
+        if (!style.ids.includes(id)) {
+          var code = css.source;
+          var index = style.ids.length;
 
-      var group = isOldIE ? css.media || 'default' : id;
-      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+          style.ids.push(id);
 
-      if (!style.ids.includes(id)) {
-        var code = css.source;
-        var index = style.ids.length;
-
-        style.ids.push(id);
-
-        if (css.map) {
-          // https://developer.chrome.com/devtools/docs/javascript-debugging
-          // this makes source maps inside style tags work properly in Chrome
-          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-          // http://stackoverflow.com/a/26603875
-          code +=
-            '\n/*# sourceMappingURL=data:application/json;base64,' +
-            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
-            ' */';
-        }
-
-        if (isOldIE) {
-          style.element = style.element || document.querySelector('style[data-group=' + group + ']');
-        }
-
-        if (!style.element) {
-          var el = style.element = document.createElement('style');
-          el.type = 'text/css';
-
-          if (css.media) { el.setAttribute('media', css.media); }
-          if (isOldIE) {
-            el.setAttribute('data-group', group);
-            el.setAttribute('data-next-index', '0');
+          if (css.map) {
+            // https://developer.chrome.com/devtools/docs/javascript-debugging
+            // this makes source maps inside style tags work properly in Chrome
+            code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+            // http://stackoverflow.com/a/26603875
+            code +=
+              '\n/*# sourceMappingURL=data:application/json;base64,' +
+              btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+              ' */';
           }
 
-          head.appendChild(el);
-        }
+          if (isOldIE) {
+            style.element = style.element || document.querySelector('style[data-group=' + group + ']');
+          }
 
-        if (isOldIE) {
-          index = parseInt(style.element.getAttribute('data-next-index'));
-          style.element.setAttribute('data-next-index', index + 1);
-        }
+          if (!style.element) {
+            var el = style.element = document.createElement('style');
+            el.type = 'text/css';
 
-        if (style.element.styleSheet) {
-          style.parts.push(code);
-          style.element.styleSheet.cssText = style.parts
-            .filter(Boolean)
-            .join('\n');
-        } else {
-          var textNode = document.createTextNode(code);
-          var nodes = style.element.childNodes;
-          if (nodes[index]) { style.element.removeChild(nodes[index]); }
-          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
-          else { style.element.appendChild(textNode); }
+            if (css.media) { el.setAttribute('media', css.media); }
+            if (isOldIE) {
+              el.setAttribute('data-group', group);
+              el.setAttribute('data-next-index', '0');
+            }
+
+            head.appendChild(el);
+          }
+
+          if (isOldIE) {
+            index = parseInt(style.element.getAttribute('data-next-index'));
+            style.element.setAttribute('data-next-index', index + 1);
+          }
+
+          if (style.element.styleSheet) {
+            style.parts.push(code);
+            style.element.styleSheet.cssText = style.parts
+              .filter(Boolean)
+              .join('\n');
+          } else {
+            var textNode = document.createTextNode(code);
+            var nodes = style.element.childNodes;
+            if (nodes[index]) { style.element.removeChild(nodes[index]); }
+            if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+            else { style.element.appendChild(textNode); }
+          }
         }
       }
     }
-  }
-  /* style inject SSR */
+    /* style inject SSR */
+    
 
-
-  var container = __vue_normalize__$1(
-    __vue_template__$1,
-    __vue_inject_styles__$1,
-    typeof __vue_script__$1 === 'undefined' ? {} : __vue_script__$1,
-    __vue_scope_id__$1,
-    __vue_is_functional_template__$1,
-    __vue_module_identifier__$1,
-    typeof __vue_create_injector__$1 !== 'undefined' ? __vue_create_injector__$1 : function () {},
-    typeof __vue_create_injector_ssr__ !== 'undefined' ? __vue_create_injector_ssr__ : function () {}
-  )
+    
+    var container = __vue_normalize__$1(
+      { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
+      __vue_inject_styles__$1,
+      __vue_script__$1,
+      __vue_scope_id__$1,
+      __vue_is_functional_template__$1,
+      __vue_module_identifier__$1,
+      __vue_create_injector__$1,
+      undefined
+    );
 
   //
 
@@ -4869,124 +4867,123 @@
       }
   };
 
-  var __vue_script__$2 = script$2;
+  /* script */
+              var __vue_script__$2 = script$2;
               
   /* template */
   var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.hasSchema)?_c('div',_vm._l((_vm.schema),function(field,index){return _c('container',{key:index,attrs:{"form-options":_vm.formOptions,"model":_vm.model,"schema":field},on:{"model-updated":_vm.modelUpdated}})})):_vm._e()};
   var __vue_staticRenderFns__$2 = [];
 
-  var __vue_template__$2 = typeof __vue_render__$2 !== 'undefined'
-    ? { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 }
-    : {};
-  /* style */
-  var __vue_inject_styles__$2 = undefined;
-  /* scoped */
-  var __vue_scope_id__$2 = undefined;
-  /* module identifier */
-  var __vue_module_identifier__$2 = undefined;
-  /* functional template */
-  var __vue_is_functional_template__$2 = false;
-  /* component normalizer */
-  function __vue_normalize__$2(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    var component = (typeof script === 'function' ? script.options : script) || {};
+    /* style */
+    var __vue_inject_styles__$2 = undefined;
+    /* scoped */
+    var __vue_scope_id__$2 = undefined;
+    /* module identifier */
+    var __vue_module_identifier__$2 = undefined;
+    /* functional template */
+    var __vue_is_functional_template__$2 = false;
+    /* component normalizer */
+    function __vue_normalize__$2(
+      template, style, script,
+      scope, functional, moduleIdentifier,
+      createInjector, createInjectorSSR
+    ) {
+      var component = (typeof script === 'function' ? script.options : script) || {};
 
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
+      if (!component.render) {
+        component.render = template.render;
+        component.staticRenderFns = template.staticRenderFns;
+        component._compiled = true;
 
-      if (functional) { component.functional = true; }
+        if (functional) { component.functional = true; }
+      }
+
+      component._scopeId = scope;
+
+      return component
     }
+    /* style inject */
+    function __vue_create_injector__$2() {
+      var head = document.head || document.getElementsByTagName('head')[0];
+      var styles = __vue_create_injector__$2.styles || (__vue_create_injector__$2.styles = {});
+      var isOldIE =
+        typeof navigator !== 'undefined' &&
+        /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
 
-    component._scopeId = scope;
+      return function addStyle(id, css) {
+        if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
 
-    return component
-  }
-  /* style inject */
-  function __vue_create_injector__$2() {
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var styles = __vue_create_injector__$2.styles || (__vue_create_injector__$2.styles = {});
-    var isOldIE =
-      typeof navigator !== 'undefined' &&
-      /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
+        var group = isOldIE ? css.media || 'default' : id;
+        var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
 
-    return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
+        if (!style.ids.includes(id)) {
+          var code = css.source;
+          var index = style.ids.length;
 
-      var group = isOldIE ? css.media || 'default' : id;
-      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+          style.ids.push(id);
 
-      if (!style.ids.includes(id)) {
-        var code = css.source;
-        var index = style.ids.length;
-
-        style.ids.push(id);
-
-        if (css.map) {
-          // https://developer.chrome.com/devtools/docs/javascript-debugging
-          // this makes source maps inside style tags work properly in Chrome
-          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-          // http://stackoverflow.com/a/26603875
-          code +=
-            '\n/*# sourceMappingURL=data:application/json;base64,' +
-            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
-            ' */';
-        }
-
-        if (isOldIE) {
-          style.element = style.element || document.querySelector('style[data-group=' + group + ']');
-        }
-
-        if (!style.element) {
-          var el = style.element = document.createElement('style');
-          el.type = 'text/css';
-
-          if (css.media) { el.setAttribute('media', css.media); }
-          if (isOldIE) {
-            el.setAttribute('data-group', group);
-            el.setAttribute('data-next-index', '0');
+          if (css.map) {
+            // https://developer.chrome.com/devtools/docs/javascript-debugging
+            // this makes source maps inside style tags work properly in Chrome
+            code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+            // http://stackoverflow.com/a/26603875
+            code +=
+              '\n/*# sourceMappingURL=data:application/json;base64,' +
+              btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+              ' */';
           }
 
-          head.appendChild(el);
-        }
+          if (isOldIE) {
+            style.element = style.element || document.querySelector('style[data-group=' + group + ']');
+          }
 
-        if (isOldIE) {
-          index = parseInt(style.element.getAttribute('data-next-index'));
-          style.element.setAttribute('data-next-index', index + 1);
-        }
+          if (!style.element) {
+            var el = style.element = document.createElement('style');
+            el.type = 'text/css';
 
-        if (style.element.styleSheet) {
-          style.parts.push(code);
-          style.element.styleSheet.cssText = style.parts
-            .filter(Boolean)
-            .join('\n');
-        } else {
-          var textNode = document.createTextNode(code);
-          var nodes = style.element.childNodes;
-          if (nodes[index]) { style.element.removeChild(nodes[index]); }
-          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
-          else { style.element.appendChild(textNode); }
+            if (css.media) { el.setAttribute('media', css.media); }
+            if (isOldIE) {
+              el.setAttribute('data-group', group);
+              el.setAttribute('data-next-index', '0');
+            }
+
+            head.appendChild(el);
+          }
+
+          if (isOldIE) {
+            index = parseInt(style.element.getAttribute('data-next-index'));
+            style.element.setAttribute('data-next-index', index + 1);
+          }
+
+          if (style.element.styleSheet) {
+            style.parts.push(code);
+            style.element.styleSheet.cssText = style.parts
+              .filter(Boolean)
+              .join('\n');
+          } else {
+            var textNode = document.createTextNode(code);
+            var nodes = style.element.childNodes;
+            if (nodes[index]) { style.element.removeChild(nodes[index]); }
+            if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+            else { style.element.appendChild(textNode); }
+          }
         }
       }
     }
-  }
-  /* style inject SSR */
+    /* style inject SSR */
+    
 
-
-  var VfgComponent = __vue_normalize__$2(
-    __vue_template__$2,
-    __vue_inject_styles__$2,
-    typeof __vue_script__$2 === 'undefined' ? {} : __vue_script__$2,
-    __vue_scope_id__$2,
-    __vue_is_functional_template__$2,
-    __vue_module_identifier__$2,
-    typeof __vue_create_injector__$2 !== 'undefined' ? __vue_create_injector__$2 : function () {},
-    typeof __vue_create_injector_ssr__ !== 'undefined' ? __vue_create_injector_ssr__ : function () {}
-  )
+    
+    var VfgComponent = __vue_normalize__$2(
+      { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
+      __vue_inject_styles__$2,
+      __vue_script__$2,
+      __vue_scope_id__$2,
+      __vue_is_functional_template__$2,
+      __vue_module_identifier__$2,
+      __vue_create_injector__$2,
+      undefined
+    );
 
   var custom = {};
 
@@ -5005,7 +5002,7 @@
                   if (isFunction_1(this.schema.get)) {
                       val = this.schema.get.call(null, this);
                   } else if (this.model && this.schema.model) {
-                      val = get_1(this.model, this.schema.model);
+                      val = this.model[this.schema.model];
                   } else if (this.schema.value) {
                       val = this.schema.value;
                   }
@@ -5111,252 +5108,444 @@
       mixins: [Base]
   };
 
-  var __vue_script__$3 = script$3;
+  /* script */
+              var __vue_script__$3 = script$3;
               
   /* template */
   var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return ((_vm.schema.inputType)==='checkbox')?_c('input',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"accept":_vm.schema.accept,"align":_vm.schema.align,"alt":_vm.schema.alt,"autocomplete":_vm.schema.autocomplete,"autofocus":_vm.schema.autofocus,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"formaction":_vm.schema.formaction,"formenctype":_vm.schema.formenctype,"formmethod":_vm.schema.formmethod,"formnovalidate":_vm.schema.formnovalidate,"formtarget":_vm.schema.formtarget,"height":_vm.schema.height,"list":_vm.schema.list,"max":_vm.schema.max,"maxlength":_vm.schema.maxlength,"min":_vm.schema.min,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"pattern":_vm.schema.pattern,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"size":_vm.schema.size,"src":_vm.schema.src,"step":_vm.schema.step,"width":_vm.schema.width,"type":"checkbox"},domProps:{"checked":_vm.schema.checked,"value":_vm.schema.value,"checked":Array.isArray(_vm.value)?_vm._i(_vm.value,_vm.schema.value)>-1:(_vm.value)},on:{"blur":_vm.onBlur,"change":[function($event){var $$a=_vm.value,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=_vm.schema.value,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.value=$$a.concat([$$v]));}else{$$i>-1&&(_vm.value=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.value=$$c;}},_vm.onChange],"input":_vm.onInput}},'input',_vm.schema.attrs,false),_vm.schema.events)):((_vm.schema.inputType)==='radio')?_c('input',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"accept":_vm.schema.accept,"align":_vm.schema.align,"alt":_vm.schema.alt,"autocomplete":_vm.schema.autocomplete,"autofocus":_vm.schema.autofocus,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"formaction":_vm.schema.formaction,"formenctype":_vm.schema.formenctype,"formmethod":_vm.schema.formmethod,"formnovalidate":_vm.schema.formnovalidate,"formtarget":_vm.schema.formtarget,"height":_vm.schema.height,"list":_vm.schema.list,"max":_vm.schema.max,"maxlength":_vm.schema.maxlength,"min":_vm.schema.min,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"pattern":_vm.schema.pattern,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"size":_vm.schema.size,"src":_vm.schema.src,"step":_vm.schema.step,"width":_vm.schema.width,"type":"radio"},domProps:{"checked":_vm.schema.checked,"value":_vm.schema.value,"checked":_vm._q(_vm.value,_vm.schema.value)},on:{"blur":_vm.onBlur,"change":[function($event){_vm.value=_vm.schema.value;},_vm.onChange],"input":_vm.onInput}},'input',_vm.schema.attrs,false),_vm.schema.events)):_c('input',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"accept":_vm.schema.accept,"align":_vm.schema.align,"alt":_vm.schema.alt,"autocomplete":_vm.schema.autocomplete,"autofocus":_vm.schema.autofocus,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"formaction":_vm.schema.formaction,"formenctype":_vm.schema.formenctype,"formmethod":_vm.schema.formmethod,"formnovalidate":_vm.schema.formnovalidate,"formtarget":_vm.schema.formtarget,"height":_vm.schema.height,"list":_vm.schema.list,"max":_vm.schema.max,"maxlength":_vm.schema.maxlength,"min":_vm.schema.min,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"pattern":_vm.schema.pattern,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"size":_vm.schema.size,"src":_vm.schema.src,"step":_vm.schema.step,"width":_vm.schema.width,"type":_vm.schema.inputType},domProps:{"checked":_vm.schema.checked,"value":_vm.schema.value,"value":(_vm.value)},on:{"blur":_vm.onBlur,"change":_vm.onChange,"input":[function($event){if($event.target.composing){ return; }_vm.value=$event.target.value;},_vm.onInput]}},'input',_vm.schema.attrs,false),_vm.schema.events))};
   var __vue_staticRenderFns__$3 = [];
 
-  var __vue_template__$3 = typeof __vue_render__$3 !== 'undefined'
-    ? { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 }
-    : {};
-  /* style */
-  var __vue_inject_styles__$3 = undefined;
-  /* scoped */
-  var __vue_scope_id__$3 = undefined;
-  /* module identifier */
-  var __vue_module_identifier__$3 = undefined;
-  /* functional template */
-  var __vue_is_functional_template__$3 = false;
-  /* component normalizer */
-  function __vue_normalize__$3(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    var component = (typeof script === 'function' ? script.options : script) || {};
+    /* style */
+    var __vue_inject_styles__$3 = undefined;
+    /* scoped */
+    var __vue_scope_id__$3 = undefined;
+    /* module identifier */
+    var __vue_module_identifier__$3 = undefined;
+    /* functional template */
+    var __vue_is_functional_template__$3 = false;
+    /* component normalizer */
+    function __vue_normalize__$3(
+      template, style, script,
+      scope, functional, moduleIdentifier,
+      createInjector, createInjectorSSR
+    ) {
+      var component = (typeof script === 'function' ? script.options : script) || {};
 
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
+      if (!component.render) {
+        component.render = template.render;
+        component.staticRenderFns = template.staticRenderFns;
+        component._compiled = true;
 
-      if (functional) { component.functional = true; }
+        if (functional) { component.functional = true; }
+      }
+
+      component._scopeId = scope;
+
+      return component
     }
+    /* style inject */
+    function __vue_create_injector__$3() {
+      var head = document.head || document.getElementsByTagName('head')[0];
+      var styles = __vue_create_injector__$3.styles || (__vue_create_injector__$3.styles = {});
+      var isOldIE =
+        typeof navigator !== 'undefined' &&
+        /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
 
-    component._scopeId = scope;
+      return function addStyle(id, css) {
+        if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
 
-    return component
-  }
-  /* style inject */
-  function __vue_create_injector__$3() {
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var styles = __vue_create_injector__$3.styles || (__vue_create_injector__$3.styles = {});
-    var isOldIE =
-      typeof navigator !== 'undefined' &&
-      /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
+        var group = isOldIE ? css.media || 'default' : id;
+        var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
 
-    return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
+        if (!style.ids.includes(id)) {
+          var code = css.source;
+          var index = style.ids.length;
 
-      var group = isOldIE ? css.media || 'default' : id;
-      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+          style.ids.push(id);
 
-      if (!style.ids.includes(id)) {
-        var code = css.source;
-        var index = style.ids.length;
-
-        style.ids.push(id);
-
-        if (css.map) {
-          // https://developer.chrome.com/devtools/docs/javascript-debugging
-          // this makes source maps inside style tags work properly in Chrome
-          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-          // http://stackoverflow.com/a/26603875
-          code +=
-            '\n/*# sourceMappingURL=data:application/json;base64,' +
-            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
-            ' */';
-        }
-
-        if (isOldIE) {
-          style.element = style.element || document.querySelector('style[data-group=' + group + ']');
-        }
-
-        if (!style.element) {
-          var el = style.element = document.createElement('style');
-          el.type = 'text/css';
-
-          if (css.media) { el.setAttribute('media', css.media); }
-          if (isOldIE) {
-            el.setAttribute('data-group', group);
-            el.setAttribute('data-next-index', '0');
+          if (css.map) {
+            // https://developer.chrome.com/devtools/docs/javascript-debugging
+            // this makes source maps inside style tags work properly in Chrome
+            code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+            // http://stackoverflow.com/a/26603875
+            code +=
+              '\n/*# sourceMappingURL=data:application/json;base64,' +
+              btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+              ' */';
           }
 
-          head.appendChild(el);
-        }
+          if (isOldIE) {
+            style.element = style.element || document.querySelector('style[data-group=' + group + ']');
+          }
 
-        if (isOldIE) {
-          index = parseInt(style.element.getAttribute('data-next-index'));
-          style.element.setAttribute('data-next-index', index + 1);
-        }
+          if (!style.element) {
+            var el = style.element = document.createElement('style');
+            el.type = 'text/css';
 
-        if (style.element.styleSheet) {
-          style.parts.push(code);
-          style.element.styleSheet.cssText = style.parts
-            .filter(Boolean)
-            .join('\n');
-        } else {
-          var textNode = document.createTextNode(code);
-          var nodes = style.element.childNodes;
-          if (nodes[index]) { style.element.removeChild(nodes[index]); }
-          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
-          else { style.element.appendChild(textNode); }
+            if (css.media) { el.setAttribute('media', css.media); }
+            if (isOldIE) {
+              el.setAttribute('data-group', group);
+              el.setAttribute('data-next-index', '0');
+            }
+
+            head.appendChild(el);
+          }
+
+          if (isOldIE) {
+            index = parseInt(style.element.getAttribute('data-next-index'));
+            style.element.setAttribute('data-next-index', index + 1);
+          }
+
+          if (style.element.styleSheet) {
+            style.parts.push(code);
+            style.element.styleSheet.cssText = style.parts
+              .filter(Boolean)
+              .join('\n');
+          } else {
+            var textNode = document.createTextNode(code);
+            var nodes = style.element.childNodes;
+            if (nodes[index]) { style.element.removeChild(nodes[index]); }
+            if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+            else { style.element.appendChild(textNode); }
+          }
         }
       }
     }
-  }
-  /* style inject SSR */
+    /* style inject SSR */
+    
 
-
-  var input = __vue_normalize__$3(
-    __vue_template__$3,
-    __vue_inject_styles__$3,
-    typeof __vue_script__$3 === 'undefined' ? {} : __vue_script__$3,
-    __vue_scope_id__$3,
-    __vue_is_functional_template__$3,
-    __vue_module_identifier__$3,
-    typeof __vue_create_injector__$3 !== 'undefined' ? __vue_create_injector__$3 : function () {},
-    typeof __vue_create_injector_ssr__ !== 'undefined' ? __vue_create_injector_ssr__ : function () {}
-  )
+    
+    var input = __vue_normalize__$3(
+      { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
+      __vue_inject_styles__$3,
+      __vue_script__$3,
+      __vue_scope_id__$3,
+      __vue_is_functional_template__$3,
+      __vue_module_identifier__$3,
+      __vue_create_injector__$3,
+      undefined
+    );
 
   //
 
   var script$4 = {
-      mixins: [Base]
+      mixins: [Base],
+
+      computed: {
+          config: function config() {
+              return merge_1({
+                  optionsKey: {
+                      value: 'id',
+                      name: 'name'
+                  },
+                  noneSelectedText: {
+                      disabled: this.schema.required,
+                      value: null,
+                      name: '---'
+                  }
+              }, this.schema.config);
+          },
+
+          items: function items() {
+              var this$1 = this;
+
+              var items = Array.isArray(this.schema.items) ? this.schema.items : [];
+              var result = [];
+
+              items.forEach(function (item) {
+                  if (isObject_1(item)) {
+                      var ref = merge_1(this$1.config.optionsKey, {});
+                      var name = ref.name;
+                      var value = ref.value;
+                      var options = null;
+
+                      if (Array.isArray(item.options)) {
+                          options = [];
+
+                          item.options.forEach(function (option) {
+                              if (isObject_1(option)) {
+                                  options.push({
+                                      name: option[name],
+                                      value: option[value],
+                                      attrs: option.attrs,
+                                      class: option.class,
+                                      disabled: option.disabled
+                                  });
+                              } else {
+                                  options.push({
+                                      name: option,
+                                      value: option
+                                  });
+                              }
+                          });
+                      }
+
+                      result.push({
+                          name: item[name],
+                          value: item[value],
+                          attrs: item.attrs,
+                          class: item.class,
+                          disabled: item.disabled,
+                          options: options
+                      });
+                  } else {
+                      result.push({
+                          name: item,
+                          value: item
+                      });
+                  }
+              });
+
+              return result;
+          }
+      }
   };
 
-  var __vue_script__$4 = script$4;
+  /* script */
+              var __vue_script__$4 = script$4;
               
   /* template */
-  var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('textarea',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"autofocus":_vm.schema.autofocus,"cols":_vm.schema.cols,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"maxlength":_vm.schema.maxlength,"name":_vm.schema.name,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"rows":_vm.schema.rows,"wrap":_vm.schema.wrap},domProps:{"value":(_vm.value)},on:{"blur":_vm.onBlur,"change":_vm.onChange,"input":[function($event){if($event.target.composing){ return; }_vm.value=$event.target.value;},_vm.onInput]}},'textarea',_vm.schema.attrs,false),_vm.schema.events))};
+  var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('select',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"autofocus":_vm.schema.autofocus,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"required":_vm.schema.required,"size":_vm.schema.size},on:{"blur":_vm.onBlur,"change":[function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.value=$event.target.multiple ? $$selectedVal : $$selectedVal[0];},_vm.onChange]}},'select',_vm.schema.attrs,false),_vm.schema.events),[(!_vm.config.noneSelectedText.hide)?_c('option',_vm._b({class:_vm.config.noneSelectedText.class,attrs:{"disabled":_vm.config.noneSelectedText.disabled},domProps:{"value":_vm.config.noneSelectedText.value,"textContent":_vm._s(_vm.config.noneSelectedText.name)}},'option',_vm.config.noneSelectedText.attrs,false)):_vm._e(),_vm._v(" "),_vm._l((_vm.items),function(item,index){return [(item.options)?_c('optgroup',_vm._b({key:'optgroup'+index,class:item.class,attrs:{"disabled":item.disabled,"label":item.name}},'optgroup',item.attrs,false),_vm._l((item.options),function(option,key){return _c('option',_vm._b({key:'optgroup'+index+'option'+key,class:option.class,attrs:{"disabled":option.disabled},domProps:{"value":option.value,"textContent":_vm._s(option.name)}},'option',option.attrs,false))})):_c('option',_vm._b({key:'option'+index,class:item.class,attrs:{"disabled":item.disabled},domProps:{"value":item.value,"textContent":_vm._s(item.name)}},'option',item.attrs,false))]})],2)};
   var __vue_staticRenderFns__$4 = [];
 
-  var __vue_template__$4 = typeof __vue_render__$4 !== 'undefined'
-    ? { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 }
-    : {};
-  /* style */
-  var __vue_inject_styles__$4 = undefined;
-  /* scoped */
-  var __vue_scope_id__$4 = undefined;
-  /* module identifier */
-  var __vue_module_identifier__$4 = undefined;
-  /* functional template */
-  var __vue_is_functional_template__$4 = false;
-  /* component normalizer */
-  function __vue_normalize__$4(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    var component = (typeof script === 'function' ? script.options : script) || {};
+    /* style */
+    var __vue_inject_styles__$4 = undefined;
+    /* scoped */
+    var __vue_scope_id__$4 = undefined;
+    /* module identifier */
+    var __vue_module_identifier__$4 = undefined;
+    /* functional template */
+    var __vue_is_functional_template__$4 = false;
+    /* component normalizer */
+    function __vue_normalize__$4(
+      template, style, script,
+      scope, functional, moduleIdentifier,
+      createInjector, createInjectorSSR
+    ) {
+      var component = (typeof script === 'function' ? script.options : script) || {};
 
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
+      if (!component.render) {
+        component.render = template.render;
+        component.staticRenderFns = template.staticRenderFns;
+        component._compiled = true;
 
-      if (functional) { component.functional = true; }
+        if (functional) { component.functional = true; }
+      }
+
+      component._scopeId = scope;
+
+      return component
     }
+    /* style inject */
+    function __vue_create_injector__$4() {
+      var head = document.head || document.getElementsByTagName('head')[0];
+      var styles = __vue_create_injector__$4.styles || (__vue_create_injector__$4.styles = {});
+      var isOldIE =
+        typeof navigator !== 'undefined' &&
+        /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
 
-    component._scopeId = scope;
+      return function addStyle(id, css) {
+        if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
 
-    return component
-  }
-  /* style inject */
-  function __vue_create_injector__$4() {
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var styles = __vue_create_injector__$4.styles || (__vue_create_injector__$4.styles = {});
-    var isOldIE =
-      typeof navigator !== 'undefined' &&
-      /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
+        var group = isOldIE ? css.media || 'default' : id;
+        var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
 
-    return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
+        if (!style.ids.includes(id)) {
+          var code = css.source;
+          var index = style.ids.length;
 
-      var group = isOldIE ? css.media || 'default' : id;
-      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+          style.ids.push(id);
 
-      if (!style.ids.includes(id)) {
-        var code = css.source;
-        var index = style.ids.length;
-
-        style.ids.push(id);
-
-        if (css.map) {
-          // https://developer.chrome.com/devtools/docs/javascript-debugging
-          // this makes source maps inside style tags work properly in Chrome
-          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-          // http://stackoverflow.com/a/26603875
-          code +=
-            '\n/*# sourceMappingURL=data:application/json;base64,' +
-            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
-            ' */';
-        }
-
-        if (isOldIE) {
-          style.element = style.element || document.querySelector('style[data-group=' + group + ']');
-        }
-
-        if (!style.element) {
-          var el = style.element = document.createElement('style');
-          el.type = 'text/css';
-
-          if (css.media) { el.setAttribute('media', css.media); }
-          if (isOldIE) {
-            el.setAttribute('data-group', group);
-            el.setAttribute('data-next-index', '0');
+          if (css.map) {
+            // https://developer.chrome.com/devtools/docs/javascript-debugging
+            // this makes source maps inside style tags work properly in Chrome
+            code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+            // http://stackoverflow.com/a/26603875
+            code +=
+              '\n/*# sourceMappingURL=data:application/json;base64,' +
+              btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+              ' */';
           }
 
-          head.appendChild(el);
-        }
+          if (isOldIE) {
+            style.element = style.element || document.querySelector('style[data-group=' + group + ']');
+          }
 
-        if (isOldIE) {
-          index = parseInt(style.element.getAttribute('data-next-index'));
-          style.element.setAttribute('data-next-index', index + 1);
-        }
+          if (!style.element) {
+            var el = style.element = document.createElement('style');
+            el.type = 'text/css';
 
-        if (style.element.styleSheet) {
-          style.parts.push(code);
-          style.element.styleSheet.cssText = style.parts
-            .filter(Boolean)
-            .join('\n');
-        } else {
-          var textNode = document.createTextNode(code);
-          var nodes = style.element.childNodes;
-          if (nodes[index]) { style.element.removeChild(nodes[index]); }
-          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
-          else { style.element.appendChild(textNode); }
+            if (css.media) { el.setAttribute('media', css.media); }
+            if (isOldIE) {
+              el.setAttribute('data-group', group);
+              el.setAttribute('data-next-index', '0');
+            }
+
+            head.appendChild(el);
+          }
+
+          if (isOldIE) {
+            index = parseInt(style.element.getAttribute('data-next-index'));
+            style.element.setAttribute('data-next-index', index + 1);
+          }
+
+          if (style.element.styleSheet) {
+            style.parts.push(code);
+            style.element.styleSheet.cssText = style.parts
+              .filter(Boolean)
+              .join('\n');
+          } else {
+            var textNode = document.createTextNode(code);
+            var nodes = style.element.childNodes;
+            if (nodes[index]) { style.element.removeChild(nodes[index]); }
+            if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+            else { style.element.appendChild(textNode); }
+          }
         }
       }
     }
-  }
-  /* style inject SSR */
+    /* style inject SSR */
+    
 
+    
+    var select = __vue_normalize__$4(
+      { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
+      __vue_inject_styles__$4,
+      __vue_script__$4,
+      __vue_scope_id__$4,
+      __vue_is_functional_template__$4,
+      __vue_module_identifier__$4,
+      __vue_create_injector__$4,
+      undefined
+    );
 
-  var textarea = __vue_normalize__$4(
-    __vue_template__$4,
-    __vue_inject_styles__$4,
-    typeof __vue_script__$4 === 'undefined' ? {} : __vue_script__$4,
-    __vue_scope_id__$4,
-    __vue_is_functional_template__$4,
-    __vue_module_identifier__$4,
-    typeof __vue_create_injector__$4 !== 'undefined' ? __vue_create_injector__$4 : function () {},
-    typeof __vue_create_injector_ssr__ !== 'undefined' ? __vue_create_injector_ssr__ : function () {}
-  )
+  //
+
+  var script$5 = {
+      mixins: [Base]
+  };
+
+  /* script */
+              var __vue_script__$5 = script$5;
+              
+  /* template */
+  var __vue_render__$5 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('textarea',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"autofocus":_vm.schema.autofocus,"cols":_vm.schema.cols,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"maxlength":_vm.schema.maxlength,"name":_vm.schema.name,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"rows":_vm.schema.rows,"wrap":_vm.schema.wrap},domProps:{"value":(_vm.value)},on:{"blur":_vm.onBlur,"change":_vm.onChange,"input":[function($event){if($event.target.composing){ return; }_vm.value=$event.target.value;},_vm.onInput]}},'textarea',_vm.schema.attrs,false),_vm.schema.events))};
+  var __vue_staticRenderFns__$5 = [];
+
+    /* style */
+    var __vue_inject_styles__$5 = undefined;
+    /* scoped */
+    var __vue_scope_id__$5 = undefined;
+    /* module identifier */
+    var __vue_module_identifier__$5 = undefined;
+    /* functional template */
+    var __vue_is_functional_template__$5 = false;
+    /* component normalizer */
+    function __vue_normalize__$5(
+      template, style, script,
+      scope, functional, moduleIdentifier,
+      createInjector, createInjectorSSR
+    ) {
+      var component = (typeof script === 'function' ? script.options : script) || {};
+
+      if (!component.render) {
+        component.render = template.render;
+        component.staticRenderFns = template.staticRenderFns;
+        component._compiled = true;
+
+        if (functional) { component.functional = true; }
+      }
+
+      component._scopeId = scope;
+
+      return component
+    }
+    /* style inject */
+    function __vue_create_injector__$5() {
+      var head = document.head || document.getElementsByTagName('head')[0];
+      var styles = __vue_create_injector__$5.styles || (__vue_create_injector__$5.styles = {});
+      var isOldIE =
+        typeof navigator !== 'undefined' &&
+        /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
+
+      return function addStyle(id, css) {
+        if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
+
+        var group = isOldIE ? css.media || 'default' : id;
+        var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+
+        if (!style.ids.includes(id)) {
+          var code = css.source;
+          var index = style.ids.length;
+
+          style.ids.push(id);
+
+          if (css.map) {
+            // https://developer.chrome.com/devtools/docs/javascript-debugging
+            // this makes source maps inside style tags work properly in Chrome
+            code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+            // http://stackoverflow.com/a/26603875
+            code +=
+              '\n/*# sourceMappingURL=data:application/json;base64,' +
+              btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+              ' */';
+          }
+
+          if (isOldIE) {
+            style.element = style.element || document.querySelector('style[data-group=' + group + ']');
+          }
+
+          if (!style.element) {
+            var el = style.element = document.createElement('style');
+            el.type = 'text/css';
+
+            if (css.media) { el.setAttribute('media', css.media); }
+            if (isOldIE) {
+              el.setAttribute('data-group', group);
+              el.setAttribute('data-next-index', '0');
+            }
+
+            head.appendChild(el);
+          }
+
+          if (isOldIE) {
+            index = parseInt(style.element.getAttribute('data-next-index'));
+            style.element.setAttribute('data-next-index', index + 1);
+          }
+
+          if (style.element.styleSheet) {
+            style.parts.push(code);
+            style.element.styleSheet.cssText = style.parts
+              .filter(Boolean)
+              .join('\n');
+          } else {
+            var textNode = document.createTextNode(code);
+            var nodes = style.element.childNodes;
+            if (nodes[index]) { style.element.removeChild(nodes[index]); }
+            if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+            else { style.element.appendChild(textNode); }
+          }
+        }
+      }
+    }
+    /* style inject SSR */
+    
+
+    
+    var textarea = __vue_normalize__$5(
+      { render: __vue_render__$5, staticRenderFns: __vue_staticRenderFns__$5 },
+      __vue_inject_styles__$5,
+      __vue_script__$5,
+      __vue_scope_id__$5,
+      __vue_is_functional_template__$5,
+      __vue_module_identifier__$5,
+      __vue_create_injector__$5,
+      undefined
+    );
 
   var fields = {
       input: input,
+      select: select,
       textarea: textarea
   };
 
@@ -5432,6 +5621,21 @@
       },
 
       button: {
+          wrapper: {
+              prepend: {
+                  label: {
+                      enabled: false
+                  }
+              },
+              append: {
+                  label: {
+                      enabled: false
+                  }
+              }
+          }
+      },
+
+      image: {
           wrapper: {
               prepend: {
                   label: {
