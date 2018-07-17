@@ -44,6 +44,21 @@ export default {
         }
     },
 
+    image: {
+        wrapper: {
+            prepend: {
+                label: {
+                    enabled: false
+                }
+            },
+            append: {
+                label: {
+                    enabled: false
+                }
+            }
+        }
+    },
+
     submit: {
         wrapper: {
             prepend: {
