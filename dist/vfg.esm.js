@@ -4981,6 +4981,201 @@ var __vue_staticRenderFns__$2 = [];
 
 var custom = {};
 
+/**
+ * The base implementation of `_.slice` without an iteratee call guard.
+ *
+ * @private
+ * @param {Array} array The array to slice.
+ * @param {number} [start=0] The start position.
+ * @param {number} [end=array.length] The end position.
+ * @returns {Array} Returns the slice of `array`.
+ */
+function baseSlice(array, start, end) {
+  var index = -1,
+      length = array.length;
+
+  if (start < 0) {
+    start = -start > length ? 0 : (length + start);
+  }
+  end = end > length ? length : end;
+  if (end < 0) {
+    end += length;
+  }
+  length = start > end ? 0 : ((end - start) >>> 0);
+  start >>>= 0;
+
+  var result = Array(length);
+  while (++index < length) {
+    result[index] = array[index + start];
+  }
+  return result;
+}
+
+var _baseSlice = baseSlice;
+
+/**
+ * Casts `array` to a slice if it's needed.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {number} start The start position.
+ * @param {number} [end=array.length] The end position.
+ * @returns {Array} Returns the cast slice.
+ */
+function castSlice(array, start, end) {
+  var length = array.length;
+  end = end === undefined ? length : end;
+  return (!start && end >= length) ? array : _baseSlice(array, start, end);
+}
+
+var _castSlice = castSlice;
+
+/** Used to compose unicode character classes. */
+var rsAstralRange$1 = '\\ud800-\\udfff',
+    rsComboMarksRange$2 = '\\u0300-\\u036f',
+    reComboHalfMarksRange$2 = '\\ufe20-\\ufe2f',
+    rsComboSymbolsRange$2 = '\\u20d0-\\u20ff',
+    rsComboRange$2 = rsComboMarksRange$2 + reComboHalfMarksRange$2 + rsComboSymbolsRange$2,
+    rsVarRange$1 = '\\ufe0e\\ufe0f';
+
+/** Used to compose unicode capture groups. */
+var rsZWJ$1 = '\\u200d';
+
+/** Used to detect strings with [zero-width joiners or code points from the astral planes](http://eev.ee/blog/2015/09/12/dark-corners-of-unicode/). */
+var reHasUnicode = RegExp('[' + rsZWJ$1 + rsAstralRange$1  + rsComboRange$2 + rsVarRange$1 + ']');
+
+/**
+ * Checks if `string` contains Unicode symbols.
+ *
+ * @private
+ * @param {string} string The string to inspect.
+ * @returns {boolean} Returns `true` if a symbol is found, else `false`.
+ */
+function hasUnicode(string) {
+  return reHasUnicode.test(string);
+}
+
+var _hasUnicode = hasUnicode;
+
+/**
+ * Converts an ASCII `string` to an array.
+ *
+ * @private
+ * @param {string} string The string to convert.
+ * @returns {Array} Returns the converted array.
+ */
+function asciiToArray(string) {
+  return string.split('');
+}
+
+var _asciiToArray = asciiToArray;
+
+/** Used to compose unicode character classes. */
+var rsAstralRange$2 = '\\ud800-\\udfff',
+    rsComboMarksRange$3 = '\\u0300-\\u036f',
+    reComboHalfMarksRange$3 = '\\ufe20-\\ufe2f',
+    rsComboSymbolsRange$3 = '\\u20d0-\\u20ff',
+    rsComboRange$3 = rsComboMarksRange$3 + reComboHalfMarksRange$3 + rsComboSymbolsRange$3,
+    rsVarRange$2 = '\\ufe0e\\ufe0f';
+
+/** Used to compose unicode capture groups. */
+var rsAstral = '[' + rsAstralRange$2 + ']',
+    rsCombo$2 = '[' + rsComboRange$3 + ']',
+    rsFitz$1 = '\\ud83c[\\udffb-\\udfff]',
+    rsModifier$1 = '(?:' + rsCombo$2 + '|' + rsFitz$1 + ')',
+    rsNonAstral$1 = '[^' + rsAstralRange$2 + ']',
+    rsRegional$1 = '(?:\\ud83c[\\udde6-\\uddff]){2}',
+    rsSurrPair$1 = '[\\ud800-\\udbff][\\udc00-\\udfff]',
+    rsZWJ$2 = '\\u200d';
+
+/** Used to compose unicode regexes. */
+var reOptMod$1 = rsModifier$1 + '?',
+    rsOptVar$1 = '[' + rsVarRange$2 + ']?',
+    rsOptJoin$1 = '(?:' + rsZWJ$2 + '(?:' + [rsNonAstral$1, rsRegional$1, rsSurrPair$1].join('|') + ')' + rsOptVar$1 + reOptMod$1 + ')*',
+    rsSeq$1 = rsOptVar$1 + reOptMod$1 + rsOptJoin$1,
+    rsSymbol = '(?:' + [rsNonAstral$1 + rsCombo$2 + '?', rsCombo$2, rsRegional$1, rsSurrPair$1, rsAstral].join('|') + ')';
+
+/** Used to match [string symbols](https://mathiasbynens.be/notes/javascript-unicode). */
+var reUnicode = RegExp(rsFitz$1 + '(?=' + rsFitz$1 + ')|' + rsSymbol + rsSeq$1, 'g');
+
+/**
+ * Converts a Unicode `string` to an array.
+ *
+ * @private
+ * @param {string} string The string to convert.
+ * @returns {Array} Returns the converted array.
+ */
+function unicodeToArray(string) {
+  return string.match(reUnicode) || [];
+}
+
+var _unicodeToArray = unicodeToArray;
+
+/**
+ * Converts `string` to an array.
+ *
+ * @private
+ * @param {string} string The string to convert.
+ * @returns {Array} Returns the converted array.
+ */
+function stringToArray(string) {
+  return _hasUnicode(string)
+    ? _unicodeToArray(string)
+    : _asciiToArray(string);
+}
+
+var _stringToArray = stringToArray;
+
+/**
+ * Creates a function like `_.lowerFirst`.
+ *
+ * @private
+ * @param {string} methodName The name of the `String` case method to use.
+ * @returns {Function} Returns the new case function.
+ */
+function createCaseFirst(methodName) {
+  return function(string) {
+    string = toString_1(string);
+
+    var strSymbols = _hasUnicode(string)
+      ? _stringToArray(string)
+      : undefined;
+
+    var chr = strSymbols
+      ? strSymbols[0]
+      : string.charAt(0);
+
+    var trailing = strSymbols
+      ? _castSlice(strSymbols, 1).join('')
+      : string.slice(1);
+
+    return chr[methodName]() + trailing;
+  };
+}
+
+var _createCaseFirst = createCaseFirst;
+
+/**
+ * Converts the first character of `string` to upper case.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category String
+ * @param {string} [string=''] The string to convert.
+ * @returns {string} Returns the converted string.
+ * @example
+ *
+ * _.upperFirst('fred');
+ * // => 'Fred'
+ *
+ * _.upperFirst('FRED');
+ * // => 'FRED'
+ */
+var upperFirst = _createCaseFirst('toUpperCase');
+
+var upperFirst_1 = upperFirst;
+
 var Base = {
     props: {
         formOptions: Object,
@@ -5019,21 +5214,11 @@ var Base = {
     },
 
     methods: {
-        onBlur: function onBlur($event) {
-            if (isFunction_1(this.schema.onBlur)) {
-                this.schema.onBlur.call(null, this, $event);
-            }
-        },
+        onEvent: function onEvent($event) {
+            var eventName = upperFirst_1($event.type);
 
-        onChange: function onChange($event) {
-            if (isFunction_1(this.schema.onChange)) {
-                this.schema.onChange.call(null, this, $event);
-            }
-        },
-
-        onInput: function onInput($event) {
-            if (isFunction_1(this.schema.onInput)) {
-                this.schema.onInput.call(null, this, $event);
+            if (isFunction_1(this.schema[("on" + eventName)])) {
+                this.schema[("on" + eventName)].call(null, this, $event);
             }
         },
 
@@ -5106,7 +5291,7 @@ var script$3 = {
             var __vue_script__$3 = script$3;
             
 /* template */
-var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return ((_vm.schema.inputType)==='checkbox')?_c('input',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"accept":_vm.schema.accept,"align":_vm.schema.align,"alt":_vm.schema.alt,"autocomplete":_vm.schema.autocomplete,"autofocus":_vm.schema.autofocus,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"formaction":_vm.schema.formaction,"formenctype":_vm.schema.formenctype,"formmethod":_vm.schema.formmethod,"formnovalidate":_vm.schema.formnovalidate,"formtarget":_vm.schema.formtarget,"height":_vm.schema.height,"list":_vm.schema.list,"max":_vm.schema.max,"maxlength":_vm.schema.maxlength,"min":_vm.schema.min,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"pattern":_vm.schema.pattern,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"size":_vm.schema.size,"src":_vm.schema.src,"step":_vm.schema.step,"width":_vm.schema.width,"type":"checkbox"},domProps:{"checked":_vm.schema.checked,"value":_vm.schema.value,"checked":Array.isArray(_vm.value)?_vm._i(_vm.value,_vm.schema.value)>-1:(_vm.value)},on:{"blur":_vm.onBlur,"change":[function($event){var $$a=_vm.value,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=_vm.schema.value,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.value=$$a.concat([$$v]));}else{$$i>-1&&(_vm.value=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.value=$$c;}},_vm.onChange],"input":_vm.onInput}},'input',_vm.schema.attrs,false),_vm.schema.events)):((_vm.schema.inputType)==='radio')?_c('input',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"accept":_vm.schema.accept,"align":_vm.schema.align,"alt":_vm.schema.alt,"autocomplete":_vm.schema.autocomplete,"autofocus":_vm.schema.autofocus,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"formaction":_vm.schema.formaction,"formenctype":_vm.schema.formenctype,"formmethod":_vm.schema.formmethod,"formnovalidate":_vm.schema.formnovalidate,"formtarget":_vm.schema.formtarget,"height":_vm.schema.height,"list":_vm.schema.list,"max":_vm.schema.max,"maxlength":_vm.schema.maxlength,"min":_vm.schema.min,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"pattern":_vm.schema.pattern,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"size":_vm.schema.size,"src":_vm.schema.src,"step":_vm.schema.step,"width":_vm.schema.width,"type":"radio"},domProps:{"checked":_vm.schema.checked,"value":_vm.schema.value,"checked":_vm._q(_vm.value,_vm.schema.value)},on:{"blur":_vm.onBlur,"change":[function($event){_vm.value=_vm.schema.value;},_vm.onChange],"input":_vm.onInput}},'input',_vm.schema.attrs,false),_vm.schema.events)):_c('input',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"accept":_vm.schema.accept,"align":_vm.schema.align,"alt":_vm.schema.alt,"autocomplete":_vm.schema.autocomplete,"autofocus":_vm.schema.autofocus,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"formaction":_vm.schema.formaction,"formenctype":_vm.schema.formenctype,"formmethod":_vm.schema.formmethod,"formnovalidate":_vm.schema.formnovalidate,"formtarget":_vm.schema.formtarget,"height":_vm.schema.height,"list":_vm.schema.list,"max":_vm.schema.max,"maxlength":_vm.schema.maxlength,"min":_vm.schema.min,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"pattern":_vm.schema.pattern,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"size":_vm.schema.size,"src":_vm.schema.src,"step":_vm.schema.step,"width":_vm.schema.width,"type":_vm.schema.inputType},domProps:{"checked":_vm.schema.checked,"value":_vm.schema.value,"value":(_vm.value)},on:{"blur":_vm.onBlur,"change":_vm.onChange,"input":[function($event){if($event.target.composing){ return; }_vm.value=$event.target.value;},_vm.onInput]}},'input',_vm.schema.attrs,false),_vm.schema.events))};
+var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return ((_vm.schema.inputType)==='checkbox')?_c('input',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"accept":_vm.schema.accept,"align":_vm.schema.align,"alt":_vm.schema.alt,"autocomplete":_vm.schema.autocomplete,"autofocus":_vm.schema.autofocus,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"formaction":_vm.schema.formaction,"formenctype":_vm.schema.formenctype,"formmethod":_vm.schema.formmethod,"formnovalidate":_vm.schema.formnovalidate,"formtarget":_vm.schema.formtarget,"height":_vm.schema.height,"list":_vm.schema.list,"max":_vm.schema.max,"maxlength":_vm.schema.maxlength,"min":_vm.schema.min,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"pattern":_vm.schema.pattern,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"size":_vm.schema.size,"src":_vm.schema.src,"step":_vm.schema.step,"width":_vm.schema.width,"type":"checkbox"},domProps:{"checked":_vm.schema.checked,"value":_vm.schema.value,"checked":Array.isArray(_vm.value)?_vm._i(_vm.value,_vm.schema.value)>-1:(_vm.value)},on:{"blur":_vm.onEvent,"change":[function($event){var $$a=_vm.value,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=_vm.schema.value,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.value=$$a.concat([$$v]));}else{$$i>-1&&(_vm.value=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.value=$$c;}},_vm.onEvent],"focus":_vm.onEvent,"input":_vm.onEvent}},'input',_vm.schema.attrs,false),_vm.schema.events)):((_vm.schema.inputType)==='radio')?_c('input',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"accept":_vm.schema.accept,"align":_vm.schema.align,"alt":_vm.schema.alt,"autocomplete":_vm.schema.autocomplete,"autofocus":_vm.schema.autofocus,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"formaction":_vm.schema.formaction,"formenctype":_vm.schema.formenctype,"formmethod":_vm.schema.formmethod,"formnovalidate":_vm.schema.formnovalidate,"formtarget":_vm.schema.formtarget,"height":_vm.schema.height,"list":_vm.schema.list,"max":_vm.schema.max,"maxlength":_vm.schema.maxlength,"min":_vm.schema.min,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"pattern":_vm.schema.pattern,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"size":_vm.schema.size,"src":_vm.schema.src,"step":_vm.schema.step,"width":_vm.schema.width,"type":"radio"},domProps:{"checked":_vm.schema.checked,"value":_vm.schema.value,"checked":_vm._q(_vm.value,_vm.schema.value)},on:{"blur":_vm.onEvent,"change":[function($event){_vm.value=_vm.schema.value;},_vm.onEvent],"focus":_vm.onEvent,"input":_vm.onEvent}},'input',_vm.schema.attrs,false),_vm.schema.events)):_c('input',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"accept":_vm.schema.accept,"align":_vm.schema.align,"alt":_vm.schema.alt,"autocomplete":_vm.schema.autocomplete,"autofocus":_vm.schema.autofocus,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"formaction":_vm.schema.formaction,"formenctype":_vm.schema.formenctype,"formmethod":_vm.schema.formmethod,"formnovalidate":_vm.schema.formnovalidate,"formtarget":_vm.schema.formtarget,"height":_vm.schema.height,"list":_vm.schema.list,"max":_vm.schema.max,"maxlength":_vm.schema.maxlength,"min":_vm.schema.min,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"pattern":_vm.schema.pattern,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"size":_vm.schema.size,"src":_vm.schema.src,"step":_vm.schema.step,"width":_vm.schema.width,"type":_vm.schema.inputType},domProps:{"checked":_vm.schema.checked,"value":_vm.schema.value,"value":(_vm.value)},on:{"blur":_vm.onEvent,"change":_vm.onEvent,"focus":_vm.onEvent,"input":[function($event){if($event.target.composing){ return; }_vm.value=$event.target.value;},_vm.onEvent]}},'input',_vm.schema.attrs,false),_vm.schema.events))};
 var __vue_staticRenderFns__$3 = [];
 
   /* style */
@@ -5299,7 +5484,7 @@ var script$4 = {
             var __vue_script__$4 = script$4;
             
 /* template */
-var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('select',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"autofocus":_vm.schema.autofocus,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"required":_vm.schema.required,"size":_vm.schema.size},on:{"blur":_vm.onBlur,"change":[function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.value=$event.target.multiple ? $$selectedVal : $$selectedVal[0];},_vm.onChange]}},'select',_vm.schema.attrs,false),_vm.schema.events),[(!_vm.config.noneSelectedText.hide)?_c('option',_vm._b({class:_vm.config.noneSelectedText.class,attrs:{"disabled":_vm.config.noneSelectedText.disabled},domProps:{"value":_vm.config.noneSelectedText.value,"textContent":_vm._s(_vm.config.noneSelectedText.name)}},'option',_vm.config.noneSelectedText.attrs,false)):_vm._e(),_vm._v(" "),_vm._l((_vm.items),function(item,index){return [(item.options)?_c('optgroup',_vm._b({key:'optgroup'+index,class:item.class,attrs:{"disabled":item.disabled,"label":item.name}},'optgroup',item.attrs,false),_vm._l((item.options),function(option,key){return _c('option',_vm._b({key:'optgroup'+index+'option'+key,class:option.class,attrs:{"disabled":option.disabled},domProps:{"value":option.value,"textContent":_vm._s(option.name)}},'option',option.attrs,false))})):_c('option',_vm._b({key:'option'+index,class:item.class,attrs:{"disabled":item.disabled},domProps:{"value":item.value,"textContent":_vm._s(item.name)}},'option',item.attrs,false))]})],2)};
+var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('select',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"autofocus":_vm.schema.autofocus,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"required":_vm.schema.required,"size":_vm.schema.size},on:{"blur":_vm.onEvent,"change":[function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.value=$event.target.multiple ? $$selectedVal : $$selectedVal[0];},_vm.onEvent],"focus":_vm.onEvent}},'select',_vm.schema.attrs,false),_vm.schema.events),[(!_vm.config.noneSelectedText.hide)?_c('option',_vm._b({class:_vm.config.noneSelectedText.class,attrs:{"disabled":_vm.config.noneSelectedText.disabled},domProps:{"value":_vm.config.noneSelectedText.value,"textContent":_vm._s(_vm.config.noneSelectedText.name)}},'option',_vm.config.noneSelectedText.attrs,false)):_vm._e(),_vm._v(" "),_vm._l((_vm.items),function(item,index){return [(item.options)?_c('optgroup',_vm._b({key:'optgroup'+index,class:item.class,attrs:{"disabled":item.disabled,"label":item.name}},'optgroup',item.attrs,false),_vm._l((item.options),function(option,key){return _c('option',_vm._b({key:'optgroup'+index+'option'+key,class:option.class,attrs:{"disabled":option.disabled},domProps:{"value":option.value,"textContent":_vm._s(option.name)}},'option',option.attrs,false))})):_c('option',_vm._b({key:'option'+index,class:item.class,attrs:{"disabled":item.disabled},domProps:{"value":item.value,"textContent":_vm._s(item.name)}},'option',item.attrs,false))]})],2)};
 var __vue_staticRenderFns__$4 = [];
 
   /* style */
@@ -5423,7 +5608,7 @@ var script$5 = {
             var __vue_script__$5 = script$5;
             
 /* template */
-var __vue_render__$5 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('textarea',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"autofocus":_vm.schema.autofocus,"cols":_vm.schema.cols,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"maxlength":_vm.schema.maxlength,"name":_vm.schema.name,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"rows":_vm.schema.rows,"wrap":_vm.schema.wrap},domProps:{"value":(_vm.value)},on:{"blur":_vm.onBlur,"change":_vm.onChange,"input":[function($event){if($event.target.composing){ return; }_vm.value=$event.target.value;},_vm.onInput]}},'textarea',_vm.schema.attrs,false),_vm.schema.events))};
+var __vue_render__$5 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('textarea',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"autofocus":_vm.schema.autofocus,"cols":_vm.schema.cols,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"maxlength":_vm.schema.maxlength,"name":_vm.schema.name,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"rows":_vm.schema.rows,"wrap":_vm.schema.wrap},domProps:{"value":(_vm.value)},on:{"blur":_vm.onEvent,"change":_vm.onEvent,"focus":_vm.onEvent,"input":[function($event){if($event.target.composing){ return; }_vm.value=$event.target.value;},_vm.onEvent]}},'textarea',_vm.schema.attrs,false),_vm.schema.events))};
 var __vue_staticRenderFns__$5 = [];
 
   /* style */
@@ -5583,81 +5768,42 @@ var schema = {
     }
 };
 
-var types = {
-    checkbox: {
-        wrapper: {
-            prepend: {
-                label: {
-                    enabled: false
-                }
-            },
-            append: {
-                label: {
-                    enabled: true
-                }
+var type1 = {
+    wrapper: {
+        prepend: {
+            label: {
+                enabled: false
             }
-        }
-    },
-
-    radio: {
-        wrapper: {
-            prepend: {
-                label: {
-                    enabled: false
-                }
-            },
-            append: {
-                label: {
-                    enabled: true
-                }
-            }
-        }
-    },
-
-    button: {
-        wrapper: {
-            prepend: {
-                label: {
-                    enabled: false
-                }
-            },
-            append: {
-                label: {
-                    enabled: false
-                }
-            }
-        }
-    },
-
-    image: {
-        wrapper: {
-            prepend: {
-                label: {
-                    enabled: false
-                }
-            },
-            append: {
-                label: {
-                    enabled: false
-                }
-            }
-        }
-    },
-
-    submit: {
-        wrapper: {
-            prepend: {
-                label: {
-                    enabled: false
-                }
-            },
-            append: {
-                label: {
-                    enabled: false
-                }
+        },
+        append: {
+            label: {
+                enabled: true
             }
         }
     }
+};
+
+var type2 = {
+    wrapper: {
+        prepend: {
+            label: {
+                enabled: false
+            }
+        },
+        append: {
+            label: {
+                enabled: false
+            }
+        }
+    }
+};
+
+var types = {
+    checkbox: type1,
+    radio: type1,
+    button: type2,
+    image: type2,
+    submit: type2
 };
 
 var defaults = {
