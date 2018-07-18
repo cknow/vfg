@@ -1,76 +1,37 @@
-export default {
-    checkbox: {
-        wrapper: {
-            prepend: {
-                label: {
-                    enabled: false
-                }
-            },
-            append: {
-                label: {
-                    enabled: true
-                }
+const type1 = {
+    wrapper: {
+        prepend: {
+            label: {
+                enabled: false
             }
-        }
-    },
-
-    radio: {
-        wrapper: {
-            prepend: {
-                label: {
-                    enabled: false
-                }
-            },
-            append: {
-                label: {
-                    enabled: true
-                }
-            }
-        }
-    },
-
-    button: {
-        wrapper: {
-            prepend: {
-                label: {
-                    enabled: false
-                }
-            },
-            append: {
-                label: {
-                    enabled: false
-                }
-            }
-        }
-    },
-
-    image: {
-        wrapper: {
-            prepend: {
-                label: {
-                    enabled: false
-                }
-            },
-            append: {
-                label: {
-                    enabled: false
-                }
-            }
-        }
-    },
-
-    submit: {
-        wrapper: {
-            prepend: {
-                label: {
-                    enabled: false
-                }
-            },
-            append: {
-                label: {
-                    enabled: false
-                }
+        },
+        append: {
+            label: {
+                enabled: true
             }
         }
     }
+};
+
+const type2 = {
+    wrapper: {
+        prepend: {
+            label: {
+                enabled: false
+            }
+        },
+        append: {
+            label: {
+                enabled: false
+            }
+        }
+    }
+};
+
+export default {
+    checkbox: type1,
+    radio: type1,
+    button: type2,
+    image: type2,
+    submit: type2
 };

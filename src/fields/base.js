@@ -1,4 +1,5 @@
 import isFunction from 'lodash/isFunction';
+import upperFirst from 'lodash/upperFirst';
 
 export default {
     props: {
@@ -38,21 +39,11 @@ export default {
     },
 
     methods: {
-        onBlur($event) {
-            if (isFunction(this.schema.onBlur)) {
-                this.schema.onBlur.call(null, this, $event);
-            }
-        },
+        onEvent($event) {
+            const eventName = upperFirst($event.type);
 
-        onChange($event) {
-            if (isFunction(this.schema.onChange)) {
-                this.schema.onChange.call(null, this, $event);
-            }
-        },
-
-        onInput($event) {
-            if (isFunction(this.schema.onInput)) {
-                this.schema.onInput.call(null, this, $event);
+            if (isFunction(this.schema[`on${eventName}`])) {
+                this.schema[`on${eventName}`].call(null, this, $event);
             }
         },
 

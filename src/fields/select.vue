@@ -15,8 +15,9 @@
         v-model="value"
         v-on="schema.events"
 
-        @blur="onBlur"
-        @change="onChange"
+        @blur="onEvent"
+        @change="onEvent"
+        @focus="onEvent"
     >
         <option
             v-if="!config.noneSelectedText.hide"

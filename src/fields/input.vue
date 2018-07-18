@@ -39,9 +39,10 @@
         v-model="value"
         v-on="schema.events"
 
-        @blur="onBlur"
-        @change="onChange"
-        @input="onInput"
+        @blur="onEvent"
+        @change="onEvent"
+        @focus="onEvent"
+        @input="onEvent"
     >
 
 </template>
