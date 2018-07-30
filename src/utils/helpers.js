@@ -7,7 +7,7 @@ import mapValues from 'lodash/mapValues';
 
 export function parseObj(obj, args = []) {
     return mapValues(obj, (value, key) => {
-        if (startsWith(key, 'on') || ['events', 'get', 'set', 'fields'].includes(key)) {
+        if (startsWith(key, 'on') || ['events', 'get', 'set', 'fields', 'items'].includes(key)) {
             return value;
         }
 
