@@ -113,15 +113,15 @@ export default {
         config() {
             let config = this.options || {};
 
-            if (config.tag === 'label') {
-                const label = {
+            if (config.tag === 'label' || config.tag === 'legend') {
+                const tag = {
                     id: this.field.id,
-                    text: this.field.label,
-                    html: this.field.labelHtml
+                    text: this.field[config.tag],
+                    html: this.field[`${config.tag}Html`]
                 };
 
-                config = merge(label, config, {
-                    enabled: config.enabled && Boolean(label.text || label.html)
+                config = merge(tag, config, {
+                    enabled: config.enabled && Boolean(tag.text || tag.html)
                 });
             }
 
