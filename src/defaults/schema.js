@@ -2,6 +2,7 @@ export default {
     type: 'input',
     inputType: 'text',
     wrapper: {
+        enabled: true,
         prepend: {
             label: {
                 enabled: true,
