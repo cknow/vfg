@@ -4351,7 +4351,7 @@ function parseObj(obj, args) {
     if ( args === void 0 ) args = [];
 
     return mapValues_1(obj, function (value, key) {
-        if (startsWith_1(key, 'on') || ['events', 'get', 'set', 'fields'].includes(key)) {
+        if (startsWith_1(key, 'on') || ['events', 'get', 'set', 'fields', 'items'].includes(key)) {
             return value;
         }
 
@@ -4425,15 +4425,15 @@ var script = {
         config: function config() {
             var config = this.options || {};
 
-            if (config.tag === 'label') {
-                var label = {
+            if (config.tag === 'label' || config.tag === 'legend') {
+                var tag = {
                     id: this.field.id,
-                    text: this.field.label,
-                    html: this.field.labelHtml
+                    text: this.field[config.tag],
+                    html: this.field[((config.tag) + "Html")]
                 };
 
-                config = merge_1(label, config, {
-                    enabled: config.enabled && Boolean(label.text || label.html)
+                config = merge_1(tag, config, {
+                    enabled: config.enabled && Boolean(tag.text || tag.html)
                 });
             }
 
@@ -5755,6 +5755,7 @@ var schema = {
     type: 'input',
     inputType: 'text',
     wrapper: {
+        enabled: true,
         prepend: {
             label: {
                 enabled: true,
