@@ -4425,11 +4425,12 @@ var script = {
         config: function config() {
             var config = this.options || {};
 
-            if (config.tag === 'label' || config.tag === 'legend') {
+            if ((config.isLabel || config.tag === 'label') || (config.isLegend || config.tag === 'legend')) {
+                var tagName = config.isLegend || config.tag === 'legend' ? 'legend' : 'label';
                 var tag = {
                     id: this.field.id,
-                    text: this.field[config.tag],
-                    html: this.field[((config.tag) + "Html")]
+                    text: this.field[tagName],
+                    html: this.field[(tagName + "Html")]
                 };
 
                 config = merge_1(tag, config, {

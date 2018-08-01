@@ -113,11 +113,12 @@ export default {
         config() {
             let config = this.options || {};
 
-            if (config.tag === 'label' || config.tag === 'legend') {
+            if ((config.isLabel || config.tag === 'label') || (config.isLegend || config.tag === 'legend')) {
+                const tagName = config.isLegend || config.tag === 'legend' ? 'legend' : 'label';
                 const tag = {
                     id: this.field.id,
-                    text: this.field[config.tag],
-                    html: this.field[`${config.tag}Html`]
+                    text: this.field[tagName],
+                    html: this.field[`${tagName}Html`]
                 };
 
                 config = merge(tag, config, {
