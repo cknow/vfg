@@ -4470,6 +4470,9 @@
     ) {
       var component = (typeof script$$1 === 'function' ? script$$1.options : script$$1) || {};
 
+      // For security concerns, we use only base name in production mode.
+      component.__file = "wrapper.vue";
+
       if (!component.render) {
         component.render = template.render;
         component.staticRenderFns = template.staticRenderFns;
@@ -4736,6 +4739,9 @@
     ) {
       var component = (typeof script === 'function' ? script.options : script) || {};
 
+      // For security concerns, we use only base name in production mode.
+      component.__file = "container.vue";
+
       if (!component.render) {
         component.render = template.render;
         component.staticRenderFns = template.staticRenderFns;
@@ -4890,6 +4896,9 @@
       createInjector, createInjectorSSR
     ) {
       var component = (typeof script === 'function' ? script.options : script) || {};
+
+      // For security concerns, we use only base name in production mode.
+      component.__file = "vfg.vue";
 
       if (!component.render) {
         component.render = template.render;
@@ -5317,6 +5326,9 @@
     ) {
       var component = (typeof script === 'function' ? script.options : script) || {};
 
+      // For security concerns, we use only base name in production mode.
+      component.__file = "input.vue";
+
       if (!component.render) {
         component.render = template.render;
         component.staticRenderFns = template.staticRenderFns;
@@ -5510,6 +5522,9 @@
     ) {
       var component = (typeof script === 'function' ? script.options : script) || {};
 
+      // For security concerns, we use only base name in production mode.
+      component.__file = "select.vue";
+
       if (!component.render) {
         component.render = template.render;
         component.staticRenderFns = template.staticRenderFns;
@@ -5633,6 +5648,9 @@
       createInjector, createInjectorSSR
     ) {
       var component = (typeof script === 'function' ? script.options : script) || {};
+
+      // For security concerns, we use only base name in production mode.
+      component.__file = "textarea.vue";
 
       if (!component.render) {
         component.render = template.render;
