@@ -24,3 +24,5 @@ checks:
   return-statements:
     config:
       threshold: 5
+  similar-code:
+    enabled: false
