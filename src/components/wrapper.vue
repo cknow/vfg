@@ -38,7 +38,7 @@
         />
     </component>
     <component
-        v-else-if="config.html && config.enabled"
+        v-else-if="!(config.prepend || config.append) && config.html && config.enabled"
 
         :class="config.classes"
         :is="config.tag || 'div'"
@@ -50,7 +50,7 @@
         {{ config.html }}
     </component>
     <component
-        v-else-if="config.text && config.enabled"
+        v-else-if="!(config.prepend || config.append) && config.text && config.enabled"
 
         :class="config.classes"
         :is="config.tag || 'div'"
