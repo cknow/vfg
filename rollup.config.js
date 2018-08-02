@@ -5,7 +5,9 @@ import commonjs from 'rollup-plugin-commonjs';
 import {uglify} from 'rollup-plugin-uglify';
 import {camelCase, merge} from 'lodash';
 
-const name = 'vfg';
+import pkg from './package.json';
+
+const name = pkg.name.replace(/^.+\//, '');
 
 const bundle = (file, format, plugins = []) => {
     const base = {
