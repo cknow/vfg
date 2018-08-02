@@ -10,6 +10,7 @@ module.exports = {
         'no-empty-function': ['error', {
             allow: ['arrowFunctions']
         }],
-        'require-jsdoc': 0
+        'require-jsdoc': 'off',
+        'vue/no-v-html': 'off'
     }
 };
