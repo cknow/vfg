@@ -1,8 +1,9 @@
-import Vfg from '@/index.js';
+import Vfg from '@/';
 
 describe('module', () => {
-    test('module properties', () => {
+    test('properties', () => {
         expect(Vfg).toBeTruthy();
         expect(Vfg).toHaveProperty('install');
+        expect(Vfg.install).toBeInstanceOf(Function);
     });
 });

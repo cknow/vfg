@@ -1,11 +1,23 @@
 import isFunction from 'lodash/isFunction';
 import upperFirst from 'lodash/upperFirst';
+import objGet from 'lodash/get';
 
 export default {
     props: {
-        formOptions: Object,
-        model: Object,
-        schema: Object
+        formOptions: {
+            type: Object,
+            default: () => ({})
+        },
+
+        model: {
+            type: Object,
+            default: () => ({})
+        },
+
+        schema: {
+            type: Object,
+            default: () => ({})
+        }
     },
 
     computed: {
@@ -14,9 +26,9 @@ export default {
                 let val;
 
                 if (isFunction(this.schema.get)) {
-                    val = this.schema.get.call(null, this);
+                    val = this.schema.get.call(this);
                 } else if (this.model && this.schema.model) {
-                    val = this.model[this.schema.model];
+                    val = objGet(this.model, this.schema.model);
                 } else if (this.schema.value) {
                     val = this.schema.value;
                 }
@@ -43,32 +55,26 @@ export default {
             const eventName = upperFirst($event.type);
 
             if (isFunction(this.schema[`on${eventName}`])) {
-                this.schema[`on${eventName}`].call(null, this, $event);
+                this.schema[`on${eventName}`].call(this, $event);
             }
         },
 
         updateModelValue(newValue, oldValue) {
-            let changed = false;
-
             if (isFunction(this.schema.set)) {
-                this.schema.set.call(null, this, newValue, oldValue);
-                changed = true;
-            } else if (this.schema.model) {
+                this.schema.set.call(this, newValue, oldValue);
+            } else if (this.model && this.schema.model) {
                 this.setModelValueByPath(this.schema.model, newValue);
-                changed = true;
             }
 
-            if (changed) {
-                this.$emit('model-updated', this, newValue, oldValue);
+            this.$emit('model-updated', this, newValue, oldValue);
 
-                if (isFunction(this.schema.onChanged)) {
-                    this.schema.onChanged.call(null, this, newValue, oldValue);
-                }
+            if (isFunction(this.schema.onChanged)) {
+                this.schema.onChanged.call(this, newValue, oldValue);
             }
         },
 
         setModelValueByPath(path, value) {
-            let s = path.replace(/\[(\w+)\]/g, '$1').replace(/^\./, '');
+            let s = path.replace(/\[(\w+)\]/gu, '$1').replace(/^\./u, '');
             let o = this.model;
             let i = 0;
 

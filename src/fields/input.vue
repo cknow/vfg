@@ -8,7 +8,6 @@
         :alt="schema.alt"
         :autocomplete="schema.autocomplete"
         :autofocus="schema.autofocus"
-        :checked="schema.checked"
         :dirname="schema.dirname"
         :disabled="schema.disabled"
         :form="schema.form"
@@ -49,10 +48,10 @@
 
 <script>
 
-import Base from './base';
+import base from './base';
 
 export default {
-    mixins: [Base]
+    mixins: [base]
 };
 
 </script>

@@ -19,7 +19,7 @@ node_js:
   - 6
 
 install:
-  - travis_retry yarn install
+  - travis_retry npm install
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -29,18 +29,19 @@ before_script:
 script:
   - node --version
   - npm --version
-  - yarn --version
   - npm test
+
+after_script:
+- ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
 after_success:
   - npm run report-coverage
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
-deploy:
-  provider: script
-  skip_cleanup: true
-  script:
-    - npm install -g travis-deploy-once semantic-release && travis-deploy-once "semantic-release"
+jobs:
+  include:
+    - stage: release
+      script:
+        - npm install -g semantic-release && semantic-release
 
 branches:
   except:

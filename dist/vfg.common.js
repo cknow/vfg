@@ -1632,9 +1632,11 @@ var isTypedArray_1 = isTypedArray;
  * @returns {*} Returns the property value.
  */
 function safeGet(object, key) {
-  return key == '__proto__'
-    ? undefined
-    : object[key];
+  if (key == '__proto__') {
+    return;
+  }
+
+  return object[key];
 }
 
 var _safeGet = safeGet;
@@ -1963,7 +1965,7 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
       if (isArguments_1(objValue)) {
         newValue = toPlainObject_1(objValue);
       }
-      else if (!isObject_1(objValue) || (srcIndex && isFunction_1(objValue))) {
+      else if (!isObject_1(objValue) || isFunction_1(objValue)) {
         newValue = _initCloneObject(srcValue);
       }
     }
@@ -2585,7 +2587,7 @@ function asciiWords(string) {
 var _asciiWords = asciiWords;
 
 /** Used to detect strings that need a more robust regexp to match words. */
-var reHasUnicodeWord = /[a-z][A-Z]|[A-Z]{2,}[a-z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/;
+var reHasUnicodeWord = /[a-z][A-Z]|[A-Z]{2}[a-z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/;
 
 /**
  * Checks if `string` contains a word composed of Unicode symbols.
@@ -4348,10 +4350,11 @@ function mapValues(object, iteratee) {
 var mapValues_1 = mapValues;
 
 function parseObj(obj, args) {
+    if ( obj === void 0 ) obj = {};
     if ( args === void 0 ) args = [];
 
     return mapValues_1(obj, function (value, key) {
-        if (startsWith_1(key, 'on') || ['events', 'get', 'set', 'fields', 'items'].includes(key)) {
+        if (startsWith_1(key, 'on') || ['events', 'get', 'set', 'fields', 'items', 'enabled'].includes(key)) {
             return value;
         }
 
@@ -4368,20 +4371,21 @@ function parseObj(obj, args) {
 }
 
 function getFieldId(schema, options) {
-    var prefix = String(options.id || options.name || options.prefix || '');
-    var id = schema.label || schema.model || schema.name;
+    if ( schema === void 0 ) schema = {};
+    if ( options === void 0 ) options = {};
 
-    if (schema.id) {
-        id = schema.id;
-    }
+    var prefix = String(options.id || options.name || options.prefix || '');
+    var id = String(schema.id || schema.label || schema.model || schema.name || '');
 
     return id ? kebabCase_1(prefix + id) : null;
 }
 
 function getOptionsByType(field, options) {
+    if ( field === void 0 ) field = {};
+
     var obj = {};
 
-    if (!options) {
+    if (!isObject_1(options)) {
         return obj;
     }
 
@@ -4389,15 +4393,11 @@ function getOptionsByType(field, options) {
         obj = merge_1(obj, options.schema);
     }
 
-    if (!options.types) {
-        return obj;
-    }
-
-    if (options.types[field.type]) {
+    if (options.types && options.types[field.type]) {
         obj = merge_1(obj, options.types[field.type]);
     }
 
-    if (options.types[field.inputType]) {
+    if (options.types && options.types[field.inputType]) {
         obj = merge_1(obj, options.types[field.inputType]);
     }
 
@@ -4412,33 +4412,52 @@ var script = {
     props: {
         options: {
             type: Object,
-            default: function () {}
+            default: function () { return ({}); }
         },
 
         field: {
             type: Object,
-            default: function () {}
+            default: function () { return ({}); }
         }
     },
 
     computed: {
         config: function config() {
-            var config = this.options || {};
+            var config = this.options;
 
-            if ((config.isLabel || config.tag === 'label') || (config.isLegend || config.tag === 'legend')) {
-                var tagName = config.isLegend || config.tag === 'legend' ? 'legend' : 'label';
-                var tag = {
-                    id: this.field.id,
-                    text: this.field[tagName],
-                    html: this.field[(tagName + "Html")]
-                };
-
-                config = merge_1(tag, config, {
-                    enabled: config.enabled && Boolean(tag.text || tag.html)
-                });
+            if (!this.isLabelOrLegend(config)) {
+                return config;
             }
 
-            return config;
+            var tag = this.getTagConfig(config);
+
+            return merge_1(tag, config, {
+                enabled: config.enabled && Boolean(tag.text || tag.html)
+            });
+        }
+    },
+
+    methods: {
+        isEnabled: function isEnabled(obj) {
+            if (isFunction_1(obj.enabled)) {
+                return obj.enabled.call(this, obj);
+            }
+
+            return obj.enabled;
+        },
+
+        isLabelOrLegend: function isLabelOrLegend(config) {
+            return config.isLabel || config.tag === 'label' || config.isLegend || config.tag === 'legend';
+        },
+
+        getTagConfig: function getTagConfig(config) {
+            var tagName = config.isLegend || config.tag === 'legend' ? 'legend' : 'label';
+
+            return {
+                id: this.field.id,
+                text: this.field[tagName],
+                html: this.field[(tagName + "Html")]
+            };
         }
     }
 };
@@ -4447,7 +4466,7 @@ var script = {
             var __vue_script__ = script;
             
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.config.wrapper && _vm.config.enabled)?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id}},'component',_vm.config.attrs,false),_vm.config.events),[_vm._l((_vm.config.prepend),function(p,index){return (p.enabled)?_c('wrapper',{key:'p'+index,attrs:{"options":p,"field":_vm.field}}):_vm._e()}),_vm._v(" "),_vm._l((_vm.config.wrapper),function(option,index){return (option && option.enabled)?_c('wrapper',{key:index,attrs:{"options":option,"field":_vm.field}},[_vm._t("default")],2):_vm._t("default")}),_vm._v(" "),_vm._l((_vm.config.append),function(a,index){return (a.enabled)?_c('wrapper',{key:'a'+index,attrs:{"options":a,"field":_vm.field}}):_vm._e()})],2):(!(_vm.config.prepend || _vm.config.append) && _vm.config.html && _vm.config.enabled)?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id},domProps:{"innerHTML":_vm._s(_vm.config.html)}},'component',_vm.config.attrs,false),_vm.config.events)):(!(_vm.config.prepend || _vm.config.append) && _vm.config.text && _vm.config.enabled)?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id},domProps:{"textContent":_vm._s(_vm.config.text)}},'component',_vm.config.attrs,false),_vm.config.events)):(_vm.config.enabled)?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id}},'component',_vm.config.attrs,false),_vm.config.events),[_vm._l((_vm.config.prepend),function(p,index){return (p.enabled)?_c('wrapper',{key:'p'+index,attrs:{"options":p,"field":_vm.field}}):_vm._e()}),_vm._v(" "),_vm._t("default"),_vm._v(" "),_vm._l((_vm.config.append),function(a,index){return (a.enabled)?_c('wrapper',{key:'a'+index,attrs:{"options":a,"field":_vm.field}}):_vm._e()})],2):_vm._e()};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.config.wrapper && _vm.isEnabled(_vm.config))?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id}},'component',_vm.config.attrs,false),_vm.config.events),[_vm._l((_vm.config.prepend),function(p,index){return (_vm.isEnabled(p))?_c('wrapper',{key:'p'+index,attrs:{"options":p,"field":_vm.field}}):_vm._e()}),_vm._v(" "),_vm._l((_vm.config.wrapper),function(option,index){return (option && _vm.isEnabled(option))?_c('wrapper',{key:index,attrs:{"options":option,"field":_vm.field}},[_vm._t("default")],2):_vm._t("default")}),_vm._v(" "),_vm._l((_vm.config.append),function(a,index){return (_vm.isEnabled(a))?_c('wrapper',{key:'a'+index,attrs:{"options":a,"field":_vm.field}}):_vm._e()})],2):(_vm.config.html && _vm.isEnabled(_vm.config) && !(_vm.config.prepend || _vm.config.append))?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id},domProps:{"innerHTML":_vm._s(_vm.config.html)}},'component',_vm.config.attrs,false),_vm.config.events)):(_vm.config.text && _vm.isEnabled(_vm.config) && !(_vm.config.prepend || _vm.config.append))?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id},domProps:{"textContent":_vm._s(_vm.config.text)}},'component',_vm.config.attrs,false),_vm.config.events)):(_vm.isEnabled(_vm.config))?_c(_vm.config.tag || 'div',_vm._g(_vm._b({tag:"component",class:_vm.config.classes,attrs:{"for":_vm.config.id}},'component',_vm.config.attrs,false),_vm.config.events),[_vm._l((_vm.config.prepend),function(p,index){return (_vm.isEnabled(p))?_c('wrapper',{key:'p'+index,attrs:{"options":p,"field":_vm.field}}):_vm._e()}),_vm._v(" "),_vm._t("default"),_vm._v(" "),_vm._l((_vm.config.append),function(a,index){return (_vm.isEnabled(a))?_c('wrapper',{key:'a'+index,attrs:{"options":a,"field":_vm.field}}):_vm._e()})],2):_vm._e()};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -4482,73 +4501,7 @@ var __vue_staticRenderFns__ = [];
     return component
   }
   /* style inject */
-  function __vue_create_injector__() {
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var styles = __vue_create_injector__.styles || (__vue_create_injector__.styles = {});
-    var isOldIE =
-      typeof navigator !== 'undefined' &&
-      /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
-
-    return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
-
-      var group = isOldIE ? css.media || 'default' : id;
-      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
-
-      if (!style.ids.includes(id)) {
-        var code = css.source;
-        var index = style.ids.length;
-
-        style.ids.push(id);
-
-        if (css.map) {
-          // https://developer.chrome.com/devtools/docs/javascript-debugging
-          // this makes source maps inside style tags work properly in Chrome
-          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-          // http://stackoverflow.com/a/26603875
-          code +=
-            '\n/*# sourceMappingURL=data:application/json;base64,' +
-            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
-            ' */';
-        }
-
-        if (isOldIE) {
-          style.element = style.element || document.querySelector('style[data-group=' + group + ']');
-        }
-
-        if (!style.element) {
-          var el = style.element = document.createElement('style');
-          el.type = 'text/css';
-
-          if (css.media) { el.setAttribute('media', css.media); }
-          if (isOldIE) {
-            el.setAttribute('data-group', group);
-            el.setAttribute('data-next-index', '0');
-          }
-
-          head.appendChild(el);
-        }
-
-        if (isOldIE) {
-          index = parseInt(style.element.getAttribute('data-next-index'));
-          style.element.setAttribute('data-next-index', index + 1);
-        }
-
-        if (style.element.styleSheet) {
-          style.parts.push(code);
-          style.element.styleSheet.cssText = style.parts
-            .filter(Boolean)
-            .join('\n');
-        } else {
-          var textNode = document.createTextNode(code);
-          var nodes = style.element.childNodes;
-          if (nodes[index]) { style.element.removeChild(nodes[index]); }
-          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
-          else { style.element.appendChild(textNode); }
-        }
-      }
-    }
-  }
+  
   /* style inject SSR */
   
 
@@ -4560,7 +4513,7 @@ var __vue_staticRenderFns__ = [];
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    __vue_create_injector__,
+    undefined,
     undefined
   );
 
@@ -4574,19 +4527,19 @@ var script$1 = {
     },
 
     props: {
-        formOptions: {
+        options: {
             type: Object,
-            default: function () {}
+            default: function () { return ({}); }
         },
 
         model: {
             type: Object,
-            default: function () {}
+            default: function () { return ({}); }
         },
 
         schema: {
             type: Object,
-            default: function () {}
+            default: function () { return ({}); }
         },
 
         isGroup: {
@@ -4607,18 +4560,19 @@ var script$1 = {
 
         field: function field() {
             if (this.schemaParsed.group) {
-                return merge_1(this.options.group, this.schemaParsed);
+                return merge_1(this.config.group, this.schemaParsed);
             }
 
             if (this.schemaParsed.row) {
-                return merge_1(this.options.row, this.schemaParsed);
+                return merge_1(this.config.row, this.schemaParsed);
             }
 
-            var field = merge_1(this.options.schema, this.schemaParsed);
+            var field = merge_1(this.config.schema, this.schemaParsed);
 
-            field.id = getFieldId(this.schemaParsed, this.options);
-            field.type = String(field.type).toLowerCase();
-            field.inputType = String(field.inputType).toLowerCase();
+            field.id = getFieldId(this.schemaParsed, this.config);
+            field.type = String(field.type || 'input').toLowerCase();
+            field.inputType = String(field.inputType || 'text').toLowerCase();
+            field.wrapper = field.wrapper || { enabled: true };
 
             return merge_1({}, field, this.getOptions(field), this.schemaParsed);
         },
@@ -4627,9 +4581,9 @@ var script$1 = {
             return ("field-" + (this.field.type));
         },
 
-        options: function options() {
-            var options = parseObj(this.formOptions, [this]);
-            var defaultTheme = parseObj(this.$vfg.themeDefault, [this]);
+        config: function config() {
+            var options = parseObj(this.options, [this]);
+            var defaultTheme = this.$vfg ? parseObj(this.$vfg.themeDefault, [this]) : {};
 
             if (this.schemaParsed.theme === null || this.schemaParsed.theme === false) {
                 return merge_1({}, defaultTheme, options);
@@ -4643,7 +4597,7 @@ var script$1 = {
                 schemaTheme = this.getTheme(this.schemaParsed.theme, options);
             } else if (options.theme) {
                 optionsTheme = this.getTheme(options.theme, options);
-            } else if (this.$vfg.options.theme) {
+            } else if (this.$vfg && this.$vfg.options.theme) {
                 themeDefault = this.getTheme(this.$vfg.options.theme, options);
             }
 
@@ -4652,11 +4606,11 @@ var script$1 = {
     },
 
     created: function created() {
-        if (this.field.row || this.field.group) {
+        if (this.field.group || this.field.row) {
             return;
         }
 
-        var component = this.options.fields[this.field.type];
+        var component = this.config.fields ? this.config.fields[this.field.type] : null;
 
         if (component) {
             this.$options.components[this.fieldType] = component;
@@ -4665,25 +4619,25 @@ var script$1 = {
 
     methods: {
         getOptions: function getOptions(field) {
-            var options = getOptionsByType(field, this.options);
+            var options = getOptionsByType(field, this.config);
 
-            if (this.isGroup && this.options.group) {
-                options = merge_1(options, getOptionsByType(field, this.options.group));
+            if (this.isGroup && this.config.group) {
+                options = merge_1(options, getOptionsByType(field, this.config.group));
             }
 
-            if (this.isRow && this.options.row) {
-                options = merge_1(options, getOptionsByType(field, this.options.row));
+            if (this.isRow && this.config.row) {
+                options = merge_1(options, getOptionsByType(field, this.config.row));
             }
 
             if (field.horizontal) {
-                options = merge_1(options, getOptionsByType(field, this.options.horizontal), field.horizontal);
+                options = merge_1(options, getOptionsByType(field, this.config.horizontal), field.horizontal);
             }
 
             if (field.custom) {
-                var config = this.options.custom;
+                var config = this.config.custom;
 
-                if (field.horizontal && this.options.horizontal.custom) {
-                    config = this.options.horizontal.custom;
+                if (field.horizontal && this.config.horizontal && this.config.horizontal.custom) {
+                    config = this.config.horizontal.custom;
                 }
 
                 options = merge_1(options, getOptionsByType(field, config), field.custom);
@@ -4695,7 +4649,7 @@ var script$1 = {
         getTheme: function getTheme(theme, options) {
             var obj = {};
 
-            if (this.$vfg.hasTheme(theme)) {
+            if (this.$vfg && this.$vfg.hasTheme(theme)) {
                 obj = merge_1(obj, parseObj(this.$vfg.getTheme(theme), [this]));
             }
 
@@ -4706,7 +4660,7 @@ var script$1 = {
             return obj;
         },
 
-        modelUpdated: function modelUpdated($this, newValue, oldValue) {
+        onModelUpdated: function onModelUpdated($this, newValue, oldValue) {
             this.$emit('model-updated', $this, newValue, oldValue);
         }
     }
@@ -4716,7 +4670,7 @@ var script$1 = {
             var __vue_script__$1 = script$1;
             
 /* template */
-var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.field.group || _vm.field.row)?_c('wrapper',{attrs:{"options":_vm.field.group || _vm.field.row,"field":_vm.field}},_vm._l(((_vm.field.group ? _vm.field.group.fields : _vm.field.row.fields)),function(value,index){return _c('container',{key:index,attrs:{"form-options":_vm.formOptions,"model":_vm.model,"schema":value,"is-group":Boolean(_vm.field.group),"is-row":Boolean(_vm.field.row)}})})):_c('wrapper',{attrs:{"options":_vm.field.wrapper,"field":_vm.field}},[_c(_vm.fieldType,{tag:"component",attrs:{"form-options":_vm.options,"model":_vm.model,"schema":_vm.field},on:{"model-updated":_vm.modelUpdated}})],1)};
+var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.field.group || _vm.field.row)?_c('wrapper',{attrs:{"options":_vm.field.group || _vm.field.row,"field":_vm.field}},_vm._l(((_vm.field.group ? _vm.field.group.fields : _vm.field.row.fields)),function(value,index){return _c('container',{key:index,attrs:{"options":_vm.options,"model":_vm.model,"schema":value,"is-group":Boolean(_vm.field.group),"is-row":Boolean(_vm.field.row)}})})):_c('wrapper',{attrs:{"options":_vm.field.wrapper,"field":_vm.field}},[_c(_vm.fieldType,{tag:"component",attrs:{"form-options":_vm.config,"model":_vm.model,"schema":_vm.field},on:{"model-updated":_vm.onModelUpdated}})],1)};
 var __vue_staticRenderFns__$1 = [];
 
   /* style */
@@ -4751,73 +4705,7 @@ var __vue_staticRenderFns__$1 = [];
     return component
   }
   /* style inject */
-  function __vue_create_injector__$1() {
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var styles = __vue_create_injector__$1.styles || (__vue_create_injector__$1.styles = {});
-    var isOldIE =
-      typeof navigator !== 'undefined' &&
-      /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
-
-    return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
-
-      var group = isOldIE ? css.media || 'default' : id;
-      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
-
-      if (!style.ids.includes(id)) {
-        var code = css.source;
-        var index = style.ids.length;
-
-        style.ids.push(id);
-
-        if (css.map) {
-          // https://developer.chrome.com/devtools/docs/javascript-debugging
-          // this makes source maps inside style tags work properly in Chrome
-          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-          // http://stackoverflow.com/a/26603875
-          code +=
-            '\n/*# sourceMappingURL=data:application/json;base64,' +
-            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
-            ' */';
-        }
-
-        if (isOldIE) {
-          style.element = style.element || document.querySelector('style[data-group=' + group + ']');
-        }
-
-        if (!style.element) {
-          var el = style.element = document.createElement('style');
-          el.type = 'text/css';
-
-          if (css.media) { el.setAttribute('media', css.media); }
-          if (isOldIE) {
-            el.setAttribute('data-group', group);
-            el.setAttribute('data-next-index', '0');
-          }
-
-          head.appendChild(el);
-        }
-
-        if (isOldIE) {
-          index = parseInt(style.element.getAttribute('data-next-index'));
-          style.element.setAttribute('data-next-index', index + 1);
-        }
-
-        if (style.element.styleSheet) {
-          style.parts.push(code);
-          style.element.styleSheet.cssText = style.parts
-            .filter(Boolean)
-            .join('\n');
-        } else {
-          var textNode = document.createTextNode(code);
-          var nodes = style.element.childNodes;
-          if (nodes[index]) { style.element.removeChild(nodes[index]); }
-          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
-          else { style.element.appendChild(textNode); }
-        }
-      }
-    }
-  }
+  
   /* style inject SSR */
   
 
@@ -4829,7 +4717,7 @@ var __vue_staticRenderFns__$1 = [];
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
-    __vue_create_injector__$1,
+    undefined,
     undefined
   );
 
@@ -4841,14 +4729,14 @@ var script$2 = {
     },
 
     props: {
-        formOptions: {
+        options: {
             type: Object,
-            default: function () {}
+            default: function () { return ({}); }
         },
 
         model: {
             type: Object,
-            default: function () {}
+            default: function () { return ({}); }
         },
 
         schema: {
@@ -4859,12 +4747,12 @@ var script$2 = {
 
     computed: {
         hasSchema: function hasSchema() {
-            return this.schema && this.schema.length > 0;
+            return this.schema.length > 0;
         }
     },
 
     methods: {
-        modelUpdated: function modelUpdated($this, newValue, oldValue) {
+        onModelUpdated: function onModelUpdated($this, newValue, oldValue) {
             this.$emit('model-updated', $this, newValue, oldValue);
         }
     }
@@ -4874,7 +4762,7 @@ var script$2 = {
             var __vue_script__$2 = script$2;
             
 /* template */
-var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.hasSchema)?_c('div',_vm._l((_vm.schema),function(field,index){return _c('container',{key:index,attrs:{"form-options":_vm.formOptions,"model":_vm.model,"schema":field},on:{"model-updated":_vm.modelUpdated}})})):_vm._e()};
+var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.hasSchema)?_c('div',_vm._l((_vm.schema),function(field,index){return _c('container',{key:index,attrs:{"options":_vm.options,"model":_vm.model,"schema":field},on:{"model-updated":_vm.onModelUpdated}})})):_vm._e()};
 var __vue_staticRenderFns__$2 = [];
 
   /* style */
@@ -4909,73 +4797,7 @@ var __vue_staticRenderFns__$2 = [];
     return component
   }
   /* style inject */
-  function __vue_create_injector__$2() {
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var styles = __vue_create_injector__$2.styles || (__vue_create_injector__$2.styles = {});
-    var isOldIE =
-      typeof navigator !== 'undefined' &&
-      /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
-
-    return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
-
-      var group = isOldIE ? css.media || 'default' : id;
-      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
-
-      if (!style.ids.includes(id)) {
-        var code = css.source;
-        var index = style.ids.length;
-
-        style.ids.push(id);
-
-        if (css.map) {
-          // https://developer.chrome.com/devtools/docs/javascript-debugging
-          // this makes source maps inside style tags work properly in Chrome
-          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-          // http://stackoverflow.com/a/26603875
-          code +=
-            '\n/*# sourceMappingURL=data:application/json;base64,' +
-            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
-            ' */';
-        }
-
-        if (isOldIE) {
-          style.element = style.element || document.querySelector('style[data-group=' + group + ']');
-        }
-
-        if (!style.element) {
-          var el = style.element = document.createElement('style');
-          el.type = 'text/css';
-
-          if (css.media) { el.setAttribute('media', css.media); }
-          if (isOldIE) {
-            el.setAttribute('data-group', group);
-            el.setAttribute('data-next-index', '0');
-          }
-
-          head.appendChild(el);
-        }
-
-        if (isOldIE) {
-          index = parseInt(style.element.getAttribute('data-next-index'));
-          style.element.setAttribute('data-next-index', index + 1);
-        }
-
-        if (style.element.styleSheet) {
-          style.parts.push(code);
-          style.element.styleSheet.cssText = style.parts
-            .filter(Boolean)
-            .join('\n');
-        } else {
-          var textNode = document.createTextNode(code);
-          var nodes = style.element.childNodes;
-          if (nodes[index]) { style.element.removeChild(nodes[index]); }
-          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
-          else { style.element.appendChild(textNode); }
-        }
-      }
-    }
-  }
+  
   /* style inject SSR */
   
 
@@ -4987,7 +4809,7 @@ var __vue_staticRenderFns__$2 = [];
     __vue_scope_id__$2,
     __vue_is_functional_template__$2,
     __vue_module_identifier__$2,
-    __vue_create_injector__$2,
+    undefined,
     undefined
   );
 
@@ -5188,11 +5010,22 @@ var upperFirst = _createCaseFirst('toUpperCase');
 
 var upperFirst_1 = upperFirst;
 
-var Base = {
+var base = {
     props: {
-        formOptions: Object,
-        model: Object,
-        schema: Object
+        formOptions: {
+            type: Object,
+            default: function () { return ({}); }
+        },
+
+        model: {
+            type: Object,
+            default: function () { return ({}); }
+        },
+
+        schema: {
+            type: Object,
+            default: function () { return ({}); }
+        }
     },
 
     computed: {
@@ -5201,9 +5034,9 @@ var Base = {
                 var val;
 
                 if (isFunction_1(this.schema.get)) {
-                    val = this.schema.get.call(null, this);
+                    val = this.schema.get.call(this);
                 } else if (this.model && this.schema.model) {
-                    val = this.model[this.schema.model];
+                    val = get_1(this.model, this.schema.model);
                 } else if (this.schema.value) {
                     val = this.schema.value;
                 }
@@ -5230,34 +5063,28 @@ var Base = {
             var eventName = upperFirst_1($event.type);
 
             if (isFunction_1(this.schema[("on" + eventName)])) {
-                this.schema[("on" + eventName)].call(null, this, $event);
+                this.schema[("on" + eventName)].call(this, $event);
             }
         },
 
         updateModelValue: function updateModelValue(newValue, oldValue) {
-            var changed = false;
-
             if (isFunction_1(this.schema.set)) {
-                this.schema.set.call(null, this, newValue, oldValue);
-                changed = true;
-            } else if (this.schema.model) {
+                this.schema.set.call(this, newValue, oldValue);
+            } else if (this.model && this.schema.model) {
                 this.setModelValueByPath(this.schema.model, newValue);
-                changed = true;
             }
 
-            if (changed) {
-                this.$emit('model-updated', this, newValue, oldValue);
+            this.$emit('model-updated', this, newValue, oldValue);
 
-                if (isFunction_1(this.schema.onChanged)) {
-                    this.schema.onChanged.call(null, this, newValue, oldValue);
-                }
+            if (isFunction_1(this.schema.onChanged)) {
+                this.schema.onChanged.call(this, newValue, oldValue);
             }
         },
 
         setModelValueByPath: function setModelValueByPath(path, value) {
             var this$1 = this;
 
-            var s = path.replace(/\[(\w+)\]/g, '$1').replace(/^\./, '');
+            var s = path.replace(/\[([0-9A-Z_a-z]+)\]/g, '$1').replace(/^\./, '');
             var o = this.model;
             var i = 0;
 
@@ -5296,14 +5123,14 @@ var Base = {
 //
 
 var script$3 = {
-    mixins: [Base]
+    mixins: [base]
 };
 
 /* script */
             var __vue_script__$3 = script$3;
             
 /* template */
-var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return ((_vm.schema.inputType)==='checkbox')?_c('input',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"accept":_vm.schema.accept,"align":_vm.schema.align,"alt":_vm.schema.alt,"autocomplete":_vm.schema.autocomplete,"autofocus":_vm.schema.autofocus,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"formaction":_vm.schema.formaction,"formenctype":_vm.schema.formenctype,"formmethod":_vm.schema.formmethod,"formnovalidate":_vm.schema.formnovalidate,"formtarget":_vm.schema.formtarget,"height":_vm.schema.height,"list":_vm.schema.list,"max":_vm.schema.max,"maxlength":_vm.schema.maxlength,"min":_vm.schema.min,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"pattern":_vm.schema.pattern,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"size":_vm.schema.size,"src":_vm.schema.src,"step":_vm.schema.step,"width":_vm.schema.width,"type":"checkbox"},domProps:{"checked":_vm.schema.checked,"value":_vm.schema.value,"checked":Array.isArray(_vm.value)?_vm._i(_vm.value,_vm.schema.value)>-1:(_vm.value)},on:{"blur":_vm.onEvent,"change":[function($event){var $$a=_vm.value,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=_vm.schema.value,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.value=$$a.concat([$$v]));}else{$$i>-1&&(_vm.value=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.value=$$c;}},_vm.onEvent],"focus":_vm.onEvent,"input":_vm.onEvent}},'input',_vm.schema.attrs,false),_vm.schema.events)):((_vm.schema.inputType)==='radio')?_c('input',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"accept":_vm.schema.accept,"align":_vm.schema.align,"alt":_vm.schema.alt,"autocomplete":_vm.schema.autocomplete,"autofocus":_vm.schema.autofocus,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"formaction":_vm.schema.formaction,"formenctype":_vm.schema.formenctype,"formmethod":_vm.schema.formmethod,"formnovalidate":_vm.schema.formnovalidate,"formtarget":_vm.schema.formtarget,"height":_vm.schema.height,"list":_vm.schema.list,"max":_vm.schema.max,"maxlength":_vm.schema.maxlength,"min":_vm.schema.min,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"pattern":_vm.schema.pattern,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"size":_vm.schema.size,"src":_vm.schema.src,"step":_vm.schema.step,"width":_vm.schema.width,"type":"radio"},domProps:{"checked":_vm.schema.checked,"value":_vm.schema.value,"checked":_vm._q(_vm.value,_vm.schema.value)},on:{"blur":_vm.onEvent,"change":[function($event){_vm.value=_vm.schema.value;},_vm.onEvent],"focus":_vm.onEvent,"input":_vm.onEvent}},'input',_vm.schema.attrs,false),_vm.schema.events)):_c('input',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"accept":_vm.schema.accept,"align":_vm.schema.align,"alt":_vm.schema.alt,"autocomplete":_vm.schema.autocomplete,"autofocus":_vm.schema.autofocus,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"formaction":_vm.schema.formaction,"formenctype":_vm.schema.formenctype,"formmethod":_vm.schema.formmethod,"formnovalidate":_vm.schema.formnovalidate,"formtarget":_vm.schema.formtarget,"height":_vm.schema.height,"list":_vm.schema.list,"max":_vm.schema.max,"maxlength":_vm.schema.maxlength,"min":_vm.schema.min,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"pattern":_vm.schema.pattern,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"size":_vm.schema.size,"src":_vm.schema.src,"step":_vm.schema.step,"width":_vm.schema.width,"type":_vm.schema.inputType},domProps:{"checked":_vm.schema.checked,"value":_vm.schema.value,"value":(_vm.value)},on:{"blur":_vm.onEvent,"change":_vm.onEvent,"focus":_vm.onEvent,"input":[function($event){if($event.target.composing){ return; }_vm.value=$event.target.value;},_vm.onEvent]}},'input',_vm.schema.attrs,false),_vm.schema.events))};
+var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return ((_vm.schema.inputType)==='checkbox')?_c('input',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"accept":_vm.schema.accept,"align":_vm.schema.align,"alt":_vm.schema.alt,"autocomplete":_vm.schema.autocomplete,"autofocus":_vm.schema.autofocus,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"formaction":_vm.schema.formaction,"formenctype":_vm.schema.formenctype,"formmethod":_vm.schema.formmethod,"formnovalidate":_vm.schema.formnovalidate,"formtarget":_vm.schema.formtarget,"height":_vm.schema.height,"list":_vm.schema.list,"max":_vm.schema.max,"maxlength":_vm.schema.maxlength,"min":_vm.schema.min,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"pattern":_vm.schema.pattern,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"size":_vm.schema.size,"src":_vm.schema.src,"step":_vm.schema.step,"width":_vm.schema.width,"type":"checkbox"},domProps:{"value":_vm.schema.value,"checked":Array.isArray(_vm.value)?_vm._i(_vm.value,_vm.schema.value)>-1:(_vm.value)},on:{"blur":_vm.onEvent,"change":[function($event){var $$a=_vm.value,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=_vm.schema.value,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.value=$$a.concat([$$v]));}else{$$i>-1&&(_vm.value=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.value=$$c;}},_vm.onEvent],"focus":_vm.onEvent,"input":_vm.onEvent}},'input',_vm.schema.attrs,false),_vm.schema.events)):((_vm.schema.inputType)==='radio')?_c('input',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"accept":_vm.schema.accept,"align":_vm.schema.align,"alt":_vm.schema.alt,"autocomplete":_vm.schema.autocomplete,"autofocus":_vm.schema.autofocus,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"formaction":_vm.schema.formaction,"formenctype":_vm.schema.formenctype,"formmethod":_vm.schema.formmethod,"formnovalidate":_vm.schema.formnovalidate,"formtarget":_vm.schema.formtarget,"height":_vm.schema.height,"list":_vm.schema.list,"max":_vm.schema.max,"maxlength":_vm.schema.maxlength,"min":_vm.schema.min,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"pattern":_vm.schema.pattern,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"size":_vm.schema.size,"src":_vm.schema.src,"step":_vm.schema.step,"width":_vm.schema.width,"type":"radio"},domProps:{"value":_vm.schema.value,"checked":_vm._q(_vm.value,_vm.schema.value)},on:{"blur":_vm.onEvent,"change":[function($event){_vm.value=_vm.schema.value;},_vm.onEvent],"focus":_vm.onEvent,"input":_vm.onEvent}},'input',_vm.schema.attrs,false),_vm.schema.events)):_c('input',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"accept":_vm.schema.accept,"align":_vm.schema.align,"alt":_vm.schema.alt,"autocomplete":_vm.schema.autocomplete,"autofocus":_vm.schema.autofocus,"dirname":_vm.schema.dirname,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"formaction":_vm.schema.formaction,"formenctype":_vm.schema.formenctype,"formmethod":_vm.schema.formmethod,"formnovalidate":_vm.schema.formnovalidate,"formtarget":_vm.schema.formtarget,"height":_vm.schema.height,"list":_vm.schema.list,"max":_vm.schema.max,"maxlength":_vm.schema.maxlength,"min":_vm.schema.min,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"pattern":_vm.schema.pattern,"placeholder":_vm.schema.placeholder,"readonly":_vm.schema.readonly,"required":_vm.schema.required,"size":_vm.schema.size,"src":_vm.schema.src,"step":_vm.schema.step,"width":_vm.schema.width,"type":_vm.schema.inputType},domProps:{"value":_vm.schema.value,"value":(_vm.value)},on:{"blur":_vm.onEvent,"change":_vm.onEvent,"focus":_vm.onEvent,"input":[function($event){if($event.target.composing){ return; }_vm.value=$event.target.value;},_vm.onEvent]}},'input',_vm.schema.attrs,false),_vm.schema.events))};
 var __vue_staticRenderFns__$3 = [];
 
   /* style */
@@ -5338,73 +5165,7 @@ var __vue_staticRenderFns__$3 = [];
     return component
   }
   /* style inject */
-  function __vue_create_injector__$3() {
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var styles = __vue_create_injector__$3.styles || (__vue_create_injector__$3.styles = {});
-    var isOldIE =
-      typeof navigator !== 'undefined' &&
-      /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
-
-    return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
-
-      var group = isOldIE ? css.media || 'default' : id;
-      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
-
-      if (!style.ids.includes(id)) {
-        var code = css.source;
-        var index = style.ids.length;
-
-        style.ids.push(id);
-
-        if (css.map) {
-          // https://developer.chrome.com/devtools/docs/javascript-debugging
-          // this makes source maps inside style tags work properly in Chrome
-          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-          // http://stackoverflow.com/a/26603875
-          code +=
-            '\n/*# sourceMappingURL=data:application/json;base64,' +
-            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
-            ' */';
-        }
-
-        if (isOldIE) {
-          style.element = style.element || document.querySelector('style[data-group=' + group + ']');
-        }
-
-        if (!style.element) {
-          var el = style.element = document.createElement('style');
-          el.type = 'text/css';
-
-          if (css.media) { el.setAttribute('media', css.media); }
-          if (isOldIE) {
-            el.setAttribute('data-group', group);
-            el.setAttribute('data-next-index', '0');
-          }
-
-          head.appendChild(el);
-        }
-
-        if (isOldIE) {
-          index = parseInt(style.element.getAttribute('data-next-index'));
-          style.element.setAttribute('data-next-index', index + 1);
-        }
-
-        if (style.element.styleSheet) {
-          style.parts.push(code);
-          style.element.styleSheet.cssText = style.parts
-            .filter(Boolean)
-            .join('\n');
-        } else {
-          var textNode = document.createTextNode(code);
-          var nodes = style.element.childNodes;
-          if (nodes[index]) { style.element.removeChild(nodes[index]); }
-          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
-          else { style.element.appendChild(textNode); }
-        }
-      }
-    }
-  }
+  
   /* style inject SSR */
   
 
@@ -5416,14 +5177,14 @@ var __vue_staticRenderFns__$3 = [];
     __vue_scope_id__$3,
     __vue_is_functional_template__$3,
     __vue_module_identifier__$3,
-    __vue_create_injector__$3,
+    undefined,
     undefined
   );
 
 //
 
 var script$4 = {
-    mixins: [Base],
+    mixins: [base],
 
     computed: {
         config: function config() {
@@ -5443,8 +5204,14 @@ var script$4 = {
         items: function items() {
             var this$1 = this;
 
-            var items = Array.isArray(this.schema.items) ? this.schema.items : [];
             var result = [];
+            var items = this.schema.items;
+
+            if (isFunction_1(items)) {
+                items = items.call(this);
+            }
+
+            items = Array.isArray(items) ? items : [];
 
             items.forEach(function (item) {
                 if (isObject_1(item)) {
@@ -5462,7 +5229,7 @@ var script$4 = {
                                     name: option[name],
                                     value: option[value],
                                     attrs: option.attrs,
-                                    class: option.class,
+                                    classes: option.classes,
                                     disabled: option.disabled
                                 });
                             } else {
@@ -5478,7 +5245,7 @@ var script$4 = {
                         name: item[name],
                         value: item[value],
                         attrs: item.attrs,
-                        class: item.class,
+                        classes: item.classes,
                         disabled: item.disabled,
                         options: options
                     });
@@ -5499,7 +5266,7 @@ var script$4 = {
             var __vue_script__$4 = script$4;
             
 /* template */
-var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('select',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"autofocus":_vm.schema.autofocus,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"required":_vm.schema.required,"size":_vm.schema.size},on:{"blur":_vm.onEvent,"change":[function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.value=$event.target.multiple ? $$selectedVal : $$selectedVal[0];},_vm.onEvent],"focus":_vm.onEvent}},'select',_vm.schema.attrs,false),_vm.schema.events),[(!_vm.config.noneSelectedText.hide)?_c('option',_vm._b({class:_vm.config.noneSelectedText.class,attrs:{"disabled":_vm.config.noneSelectedText.disabled},domProps:{"value":_vm.config.noneSelectedText.value,"textContent":_vm._s(_vm.config.noneSelectedText.name)}},'option',_vm.config.noneSelectedText.attrs,false)):_vm._e(),_vm._v(" "),_vm._l((_vm.items),function(item,index){return [(item.options)?_c('optgroup',_vm._b({key:'optgroup'+index,class:item.class,attrs:{"disabled":item.disabled,"label":item.name}},'optgroup',item.attrs,false),_vm._l((item.options),function(option,key){return _c('option',_vm._b({key:'optgroup'+index+'option'+key,class:option.class,attrs:{"disabled":option.disabled},domProps:{"value":option.value,"textContent":_vm._s(option.name)}},'option',option.attrs,false))})):_c('option',_vm._b({key:'option'+index,class:item.class,attrs:{"disabled":item.disabled},domProps:{"value":item.value,"textContent":_vm._s(item.name)}},'option',item.attrs,false))]})],2)};
+var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('select',_vm._g(_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.value),expression:"value"}],class:_vm.schema.classes,attrs:{"id":_vm.schema.id,"autofocus":_vm.schema.autofocus,"disabled":_vm.schema.disabled,"form":_vm.schema.form,"multiple":_vm.schema.multiple,"name":_vm.schema.name,"required":_vm.schema.required,"size":_vm.schema.size},on:{"blur":_vm.onEvent,"change":[function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.value=$event.target.multiple ? $$selectedVal : $$selectedVal[0];},_vm.onEvent],"focus":_vm.onEvent}},'select',_vm.schema.attrs,false),_vm.schema.events),[(!_vm.config.noneSelectedText.hide)?_c('option',_vm._b({class:_vm.config.noneSelectedText.classes,attrs:{"disabled":_vm.config.noneSelectedText.disabled},domProps:{"value":_vm.config.noneSelectedText.value,"textContent":_vm._s(_vm.config.noneSelectedText.name)}},'option',_vm.config.noneSelectedText.attrs,false)):_vm._e(),_vm._v(" "),_vm._l((_vm.items),function(item,index){return [(item.options)?_c('optgroup',_vm._b({key:'optgroup'+index,class:item.classes,attrs:{"disabled":item.disabled,"label":item.name}},'optgroup',item.attrs,false),_vm._l((item.options),function(option,key){return _c('option',_vm._b({key:'optgroup'+index+'option'+key,class:option.classes,attrs:{"disabled":option.disabled},domProps:{"value":option.value,"textContent":_vm._s(option.name)}},'option',option.attrs,false))})):_c('option',_vm._b({key:'option'+index,class:item.classes,attrs:{"disabled":item.disabled},domProps:{"value":item.value,"textContent":_vm._s(item.name)}},'option',item.attrs,false))]})],2)};
 var __vue_staticRenderFns__$4 = [];
 
   /* style */
@@ -5534,73 +5301,7 @@ var __vue_staticRenderFns__$4 = [];
     return component
   }
   /* style inject */
-  function __vue_create_injector__$4() {
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var styles = __vue_create_injector__$4.styles || (__vue_create_injector__$4.styles = {});
-    var isOldIE =
-      typeof navigator !== 'undefined' &&
-      /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
-
-    return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
-
-      var group = isOldIE ? css.media || 'default' : id;
-      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
-
-      if (!style.ids.includes(id)) {
-        var code = css.source;
-        var index = style.ids.length;
-
-        style.ids.push(id);
-
-        if (css.map) {
-          // https://developer.chrome.com/devtools/docs/javascript-debugging
-          // this makes source maps inside style tags work properly in Chrome
-          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-          // http://stackoverflow.com/a/26603875
-          code +=
-            '\n/*# sourceMappingURL=data:application/json;base64,' +
-            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
-            ' */';
-        }
-
-        if (isOldIE) {
-          style.element = style.element || document.querySelector('style[data-group=' + group + ']');
-        }
-
-        if (!style.element) {
-          var el = style.element = document.createElement('style');
-          el.type = 'text/css';
-
-          if (css.media) { el.setAttribute('media', css.media); }
-          if (isOldIE) {
-            el.setAttribute('data-group', group);
-            el.setAttribute('data-next-index', '0');
-          }
-
-          head.appendChild(el);
-        }
-
-        if (isOldIE) {
-          index = parseInt(style.element.getAttribute('data-next-index'));
-          style.element.setAttribute('data-next-index', index + 1);
-        }
-
-        if (style.element.styleSheet) {
-          style.parts.push(code);
-          style.element.styleSheet.cssText = style.parts
-            .filter(Boolean)
-            .join('\n');
-        } else {
-          var textNode = document.createTextNode(code);
-          var nodes = style.element.childNodes;
-          if (nodes[index]) { style.element.removeChild(nodes[index]); }
-          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
-          else { style.element.appendChild(textNode); }
-        }
-      }
-    }
-  }
+  
   /* style inject SSR */
   
 
@@ -5612,14 +5313,14 @@ var __vue_staticRenderFns__$4 = [];
     __vue_scope_id__$4,
     __vue_is_functional_template__$4,
     __vue_module_identifier__$4,
-    __vue_create_injector__$4,
+    undefined,
     undefined
   );
 
 //
 
 var script$5 = {
-    mixins: [Base]
+    mixins: [base]
 };
 
 /* script */
@@ -5661,73 +5362,7 @@ var __vue_staticRenderFns__$5 = [];
     return component
   }
   /* style inject */
-  function __vue_create_injector__$5() {
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var styles = __vue_create_injector__$5.styles || (__vue_create_injector__$5.styles = {});
-    var isOldIE =
-      typeof navigator !== 'undefined' &&
-      /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
-
-    return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
-
-      var group = isOldIE ? css.media || 'default' : id;
-      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
-
-      if (!style.ids.includes(id)) {
-        var code = css.source;
-        var index = style.ids.length;
-
-        style.ids.push(id);
-
-        if (css.map) {
-          // https://developer.chrome.com/devtools/docs/javascript-debugging
-          // this makes source maps inside style tags work properly in Chrome
-          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-          // http://stackoverflow.com/a/26603875
-          code +=
-            '\n/*# sourceMappingURL=data:application/json;base64,' +
-            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
-            ' */';
-        }
-
-        if (isOldIE) {
-          style.element = style.element || document.querySelector('style[data-group=' + group + ']');
-        }
-
-        if (!style.element) {
-          var el = style.element = document.createElement('style');
-          el.type = 'text/css';
-
-          if (css.media) { el.setAttribute('media', css.media); }
-          if (isOldIE) {
-            el.setAttribute('data-group', group);
-            el.setAttribute('data-next-index', '0');
-          }
-
-          head.appendChild(el);
-        }
-
-        if (isOldIE) {
-          index = parseInt(style.element.getAttribute('data-next-index'));
-          style.element.setAttribute('data-next-index', index + 1);
-        }
-
-        if (style.element.styleSheet) {
-          style.parts.push(code);
-          style.element.styleSheet.cssText = style.parts
-            .filter(Boolean)
-            .join('\n');
-        } else {
-          var textNode = document.createTextNode(code);
-          var nodes = style.element.childNodes;
-          if (nodes[index]) { style.element.removeChild(nodes[index]); }
-          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
-          else { style.element.appendChild(textNode); }
-        }
-      }
-    }
-  }
+  
   /* style inject SSR */
   
 
@@ -5739,7 +5374,7 @@ var __vue_staticRenderFns__$5 = [];
     __vue_scope_id__$5,
     __vue_is_functional_template__$5,
     __vue_module_identifier__$5,
-    __vue_create_injector__$5,
+    undefined,
     undefined
   );
 
@@ -5898,6 +5533,8 @@ var vfg = {
     install: install
 };
 
+/* eslint-disable no-undef */
+/* istanbul ignore next */
 if (typeof window !== 'undefined' && window.Vue) {
     window.Vue.use(vfg);
 }

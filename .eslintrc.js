@@ -3,9 +3,6 @@ module.exports = {
         '@cknow/eslint-config',
         '@cknow/eslint-config/plugins/vue'
     ],
-    globals: {
-        window: true
-    },
     rules: {
         'no-empty-function': ['error', {
             allow: ['arrowFunctions']

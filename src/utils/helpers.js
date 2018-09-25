@@ -5,9 +5,9 @@ import isFunction from 'lodash/isFunction';
 import startsWith from 'lodash/startsWith';
 import mapValues from 'lodash/mapValues';
 
-export function parseObj(obj, args = []) {
+export function parseObj(obj = {}, args = []) {
     return mapValues(obj, (value, key) => {
-        if (startsWith(key, 'on') || ['events', 'get', 'set', 'fields', 'items'].includes(key)) {
+        if (startsWith(key, 'on') || ['events', 'get', 'set', 'fields', 'items', 'enabled'].includes(key)) {
             return value;
         }
 
@@ -23,21 +23,17 @@ export function parseObj(obj, args = []) {
     });
 }
 
-export function getFieldId(schema, options) {
+export function getFieldId(schema = {}, options = {}) {
     const prefix = String(options.id || options.name || options.prefix || '');
-    let id = schema.label || schema.model || schema.name;
-
-    if (schema.id) {
-        id = schema.id;
-    }
+    const id = String(schema.id || schema.label || schema.model || schema.name || '');
 
     return id ? kebabCase(prefix + id) : null;
 }
 
-export function getOptionsByType(field, options) {
+export function getOptionsByType(field = {}, options) {
     let obj = {};
 
-    if (!options) {
+    if (!isObject(options)) {
         return obj;
     }
 
@@ -45,15 +41,11 @@ export function getOptionsByType(field, options) {
         obj = merge(obj, options.schema);
     }
 
-    if (!options.types) {
-        return obj;
-    }
-
-    if (options.types[field.type]) {
+    if (options.types && options.types[field.type]) {
         obj = merge(obj, options.types[field.type]);
     }
 
-    if (options.types[field.inputType]) {
+    if (options.types && options.types[field.inputType]) {
         obj = merge(obj, options.types[field.inputType]);
     }
 

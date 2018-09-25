@@ -4,11 +4,11 @@
             v-for="(field, index) in schema"
 
             :key="index"
-            :form-options="formOptions"
+            :options="options"
             :model="model"
             :schema="field"
 
-            @model-updated="modelUpdated"
+            @model-updated="onModelUpdated"
         />
     </div>
 </template>
@@ -23,14 +23,14 @@ export default {
     },
 
     props: {
-        formOptions: {
+        options: {
             type: Object,
-            default: () => {}
+            default: () => ({})
         },
 
         model: {
             type: Object,
-            default: () => {}
+            default: () => ({})
         },
 
         schema: {
@@ -41,12 +41,12 @@ export default {
 
     computed: {
         hasSchema() {
-            return this.schema && this.schema.length > 0;
+            return this.schema.length > 0;
         }
     },
 
     methods: {
-        modelUpdated($this, newValue, oldValue) {
+        onModelUpdated($this, newValue, oldValue) {
             this.$emit('model-updated', $this, newValue, oldValue);
         }
     }

@@ -1,6 +1,6 @@
 <template>
     <component
-        v-if="config.wrapper && config.enabled"
+        v-if="config.wrapper && isEnabled(config)"
 
         :class="config.classes"
         :is="config.tag || 'div'"
@@ -11,7 +11,7 @@
     >
         <wrapper
             v-for="(p, index) in config.prepend"
-            v-if="p.enabled"
+            v-if="isEnabled(p)"
 
             :key="'p'+index"
             :options="p"
@@ -19,7 +19,7 @@
         />
         <wrapper
             v-for="(option, index) in config.wrapper"
-            v-if="option && option.enabled"
+            v-if="option && isEnabled(option)"
 
             :key="index"
             :options="option"
@@ -30,7 +30,7 @@
         <slot v-else />
         <wrapper
             v-for="(a, index) in config.append"
-            v-if="a.enabled"
+            v-if="isEnabled(a)"
 
             :key="'a'+index"
             :options="a"
@@ -38,7 +38,7 @@
         />
     </component>
     <component
-        v-else-if="!(config.prepend || config.append) && config.html && config.enabled"
+        v-else-if="config.html && isEnabled(config) && !(config.prepend || config.append)"
 
         :class="config.classes"
         :is="config.tag || 'div'"
@@ -49,7 +49,7 @@
         v-html="config.html"
     />
     <component
-        v-else-if="!(config.prepend || config.append) && config.text && config.enabled"
+        v-else-if="config.text && isEnabled(config) && !(config.prepend || config.append)"
 
         :class="config.classes"
         :is="config.tag || 'div'"
@@ -60,7 +60,7 @@
         v-text="config.text"
     />
     <component
-        v-else-if="config.enabled"
+        v-else-if="isEnabled(config)"
 
         :class="config.classes"
         :is="config.tag || 'div'"
@@ -71,7 +71,7 @@
     >
         <wrapper
             v-for="(p, index) in config.prepend"
-            v-if="p.enabled"
+            v-if="isEnabled(p)"
 
             :key="'p'+index"
             :options="p"
@@ -80,7 +80,7 @@
         <slot />
         <wrapper
             v-for="(a, index) in config.append"
-            v-if="a.enabled"
+            v-if="isEnabled(a)"
 
             :key="'a'+index"
             :options="a"
@@ -92,6 +92,7 @@
 <script>
 
 import merge from 'lodash/merge';
+import isFunction from 'lodash/isFunction';
 
 export default {
     name: 'wrapper',
@@ -99,33 +100,52 @@ export default {
     props: {
         options: {
             type: Object,
-            default: () => {}
+            default: () => ({})
         },
 
         field: {
             type: Object,
-            default: () => {}
+            default: () => ({})
         }
     },
 
     computed: {
         config() {
-            let config = this.options || {};
+            let config = this.options;
 
-            if ((config.isLabel || config.tag === 'label') || (config.isLegend || config.tag === 'legend')) {
-                const tagName = config.isLegend || config.tag === 'legend' ? 'legend' : 'label';
-                const tag = {
-                    id: this.field.id,
-                    text: this.field[tagName],
-                    html: this.field[`${tagName}Html`]
-                };
-
-                config = merge(tag, config, {
-                    enabled: config.enabled && Boolean(tag.text || tag.html)
-                });
+            if (!this.isLabelOrLegend(config)) {
+                return config;
             }
 
-            return config;
+            const tag = this.getTagConfig(config);
+
+            return merge(tag, config, {
+                enabled: config.enabled && Boolean(tag.text || tag.html)
+            });
+        }
+    },
+
+    methods: {
+        isEnabled(obj) {
+            if (isFunction(obj.enabled)) {
+                return obj.enabled.call(this, obj);
+            }
+
+            return obj.enabled;
+        },
+
+        isLabelOrLegend(config) {
+            return config.isLabel || config.tag === 'label' || config.isLegend || config.tag === 'legend';
+        },
+
+        getTagConfig(config) {
+            const tagName = config.isLegend || config.tag === 'legend' ? 'legend' : 'label';
+
+            return {
+                id: this.field.id,
+                text: this.field[tagName],
+                html: this.field[`${tagName}Html`]
+            };
         }
     }
 };

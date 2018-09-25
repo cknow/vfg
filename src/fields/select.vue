@@ -22,7 +22,7 @@
         <option
             v-if="!config.noneSelectedText.hide"
 
-            :class="config.noneSelectedText.class"
+            :class="config.noneSelectedText.classes"
             :disabled="config.noneSelectedText.disabled"
             :value="config.noneSelectedText.value"
 
@@ -33,7 +33,7 @@
             <optgroup
                 v-if="item.options"
 
-                :class="item.class"
+                :class="item.classes"
                 :disabled="item.disabled"
                 :key="'optgroup'+index"
                 :label="item.name"
@@ -43,7 +43,7 @@
                 <option
                     v-for="(option, key) in item.options"
 
-                    :class="option.class"
+                    :class="option.classes"
                     :disabled="option.disabled"
                     :key="'optgroup'+index+'option'+key"
                     :value="option.value"
@@ -55,7 +55,7 @@
             <option
                 v-else
 
-                :class="item.class"
+                :class="item.classes"
                 :disabled="item.disabled"
                 :key="'option'+index"
                 :value="item.value"
@@ -70,12 +70,13 @@
 
 <script>
 
+import isFunction from 'lodash/isFunction';
 import isObject from 'lodash/isObject';
 import merge from 'lodash/merge';
-import Base from './base';
+import base from './base';
 
 export default {
-    mixins: [Base],
+    mixins: [base],
 
     computed: {
         config() {
@@ -93,12 +94,18 @@ export default {
         },
 
         items() {
-            const items = Array.isArray(this.schema.items) ? this.schema.items : [];
             const result = [];
+            let items = this.schema.items;
+
+            if (isFunction(items)) {
+                items = items.call(this);
+            }
+
+            items = Array.isArray(items) ? items : [];
 
             items.forEach(item => {
                 if (isObject(item)) {
-                    const {name, value} = merge(this.config.optionsKey, {});
+                    const { name, value } = merge(this.config.optionsKey, {});
                     let options = null;
 
                     if (Array.isArray(item.options)) {
@@ -110,7 +117,7 @@ export default {
                                     name: option[name],
                                     value: option[value],
                                     attrs: option.attrs,
-                                    class: option.class,
+                                    classes: option.classes,
                                     disabled: option.disabled
                                 });
                             } else {
@@ -126,7 +133,7 @@ export default {
                         name: item[name],
                         value: item[value],
                         attrs: item.attrs,
-                        class: item.class,
+                        classes: item.classes,
                         disabled: item.disabled,
                         options
                     });

@@ -30,10 +30,10 @@
 
 <script>
 
-import Base from './base';
+import base from './base';
 
 export default {
-    mixins: [Base]
+    mixins: [base]
 };
 
 </script>

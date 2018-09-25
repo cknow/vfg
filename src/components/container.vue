@@ -8,7 +8,7 @@
             v-for="(value, index) in (field.group ? field.group.fields : field.row.fields)"
 
             :key="index"
-            :form-options="formOptions"
+            :options="options"
             :model="model"
             :schema="value"
             :is-group="Boolean(field.group)"
@@ -21,12 +21,12 @@
         :field="field"
     >
         <component
-            :form-options="options"
+            :form-options="config"
             :is="fieldType"
             :model="model"
             :schema="field"
 
-            @model-updated="modelUpdated"
+            @model-updated="onModelUpdated"
         />
     </wrapper>
 </template>
@@ -34,7 +34,7 @@
 <script>
 
 import merge from 'lodash/merge';
-import {getFieldId, getOptionsByType, parseObj} from '../utils/helpers';
+import { getFieldId, getOptionsByType, parseObj } from '../utils/helpers';
 import wrapper from './wrapper.vue';
 
 export default {
@@ -45,19 +45,19 @@ export default {
     },
 
     props: {
-        formOptions: {
+        options: {
             type: Object,
-            default: () => {}
+            default: () => ({})
         },
 
         model: {
             type: Object,
-            default: () => {}
+            default: () => ({})
         },
 
         schema: {
             type: Object,
-            default: () => {}
+            default: () => ({})
         },
 
         isGroup: {
@@ -78,18 +78,19 @@ export default {
 
         field() {
             if (this.schemaParsed.group) {
-                return merge(this.options.group, this.schemaParsed);
+                return merge(this.config.group, this.schemaParsed);
             }
 
             if (this.schemaParsed.row) {
-                return merge(this.options.row, this.schemaParsed);
+                return merge(this.config.row, this.schemaParsed);
             }
 
-            let field = merge(this.options.schema, this.schemaParsed);
+            let field = merge(this.config.schema, this.schemaParsed);
 
-            field.id = getFieldId(this.schemaParsed, this.options);
-            field.type = String(field.type).toLowerCase();
-            field.inputType = String(field.inputType).toLowerCase();
+            field.id = getFieldId(this.schemaParsed, this.config);
+            field.type = String(field.type || 'input').toLowerCase();
+            field.inputType = String(field.inputType || 'text').toLowerCase();
+            field.wrapper = field.wrapper || { enabled: true };
 
             return merge({}, field, this.getOptions(field), this.schemaParsed);
         },
@@ -98,9 +99,9 @@ export default {
             return `field-${this.field.type}`;
         },
 
-        options() {
-            const options = parseObj(this.formOptions, [this]);
-            const defaultTheme = parseObj(this.$vfg.themeDefault, [this]);
+        config() {
+            const options = parseObj(this.options, [this]);
+            const defaultTheme = this.$vfg ? parseObj(this.$vfg.themeDefault, [this]) : {};
 
             if (this.schemaParsed.theme === null || this.schemaParsed.theme === false) {
                 return merge({}, defaultTheme, options);
@@ -114,7 +115,7 @@ export default {
                 schemaTheme = this.getTheme(this.schemaParsed.theme, options);
             } else if (options.theme) {
                 optionsTheme = this.getTheme(options.theme, options);
-            } else if (this.$vfg.options.theme) {
+            } else if (this.$vfg && this.$vfg.options.theme) {
                 themeDefault = this.getTheme(this.$vfg.options.theme, options);
             }
 
@@ -123,11 +124,11 @@ export default {
     },
 
     created() {
-        if (this.field.row || this.field.group) {
+        if (this.field.group || this.field.row) {
             return;
         }
 
-        const component = this.options.fields[this.field.type];
+        const component = this.config.fields ? this.config.fields[this.field.type] : null;
 
         if (component) {
             this.$options.components[this.fieldType] = component;
@@ -136,25 +137,25 @@ export default {
 
     methods: {
         getOptions(field) {
-            let options = getOptionsByType(field, this.options);
+            let options = getOptionsByType(field, this.config);
 
-            if (this.isGroup && this.options.group) {
-                options = merge(options, getOptionsByType(field, this.options.group));
+            if (this.isGroup && this.config.group) {
+                options = merge(options, getOptionsByType(field, this.config.group));
             }
 
-            if (this.isRow && this.options.row) {
-                options = merge(options, getOptionsByType(field, this.options.row));
+            if (this.isRow && this.config.row) {
+                options = merge(options, getOptionsByType(field, this.config.row));
             }
 
             if (field.horizontal) {
-                options = merge(options, getOptionsByType(field, this.options.horizontal), field.horizontal);
+                options = merge(options, getOptionsByType(field, this.config.horizontal), field.horizontal);
             }
 
             if (field.custom) {
-                let config = this.options.custom;
+                let config = this.config.custom;
 
-                if (field.horizontal && this.options.horizontal.custom) {
-                    config = this.options.horizontal.custom;
+                if (field.horizontal && this.config.horizontal && this.config.horizontal.custom) {
+                    config = this.config.horizontal.custom;
                 }
 
                 options = merge(options, getOptionsByType(field, config), field.custom);
@@ -166,7 +167,7 @@ export default {
         getTheme(theme, options) {
             let obj = {};
 
-            if (this.$vfg.hasTheme(theme)) {
+            if (this.$vfg && this.$vfg.hasTheme(theme)) {
                 obj = merge(obj, parseObj(this.$vfg.getTheme(theme), [this]));
             }
 
@@ -177,7 +178,7 @@ export default {
             return obj;
         },
 
-        modelUpdated($this, newValue, oldValue) {
+        onModelUpdated($this, newValue, oldValue) {
             this.$emit('model-updated', $this, newValue, oldValue);
         }
     }
