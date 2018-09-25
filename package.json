@@ -37,15 +37,15 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c",
     "commit": "commit",
-    "coverage": "npm t -- --coverage",
+    "coverage": "jest --coverage",
     "lint": "eslint src/ test/ --ext .js,.vue",
     "posttest": "npm run build",
     "prebuild": "rimraf dist/",
     "precoverage": "rimraf coverage/",
     "pretest": "npm run lint",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
-    "test": "jest",
-    "watch": "npm t -- --watch"
+    "test": "npm run coverage",
+    "watch": "jest --watch"
   },
   "commitlint": {
     "extends": [
@@ -97,7 +97,7 @@
     "hooks": {
       "commit-msg": "commitlint -e $GIT_PARAMS",
       "pre-commit": "npm t",
-      "pre-push": "npm run coverage"
+      "pre-push": "npm t"
     }
   }
 }
