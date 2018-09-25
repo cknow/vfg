@@ -43,25 +43,27 @@ import vfg from '@cknow/vfg';
 Vue.use(vfg);
 
 export default {
-    data: {
-        model: {
-            name: 'Your name',
-            subject: 'Option 1'
-        },
-        schema: [{
-            // input text is default
-            label: 'Name',
-            model: 'name'
-        },{
-            type: 'select',
-            label: 'Subject',
-            model: 'subject',
-            items: ['Option 1', 'Option 2', 'Option 3']
-        },{
-            type: 'textarea',
-            label: 'Message',
-            model: 'message'
-        }]
+    data() {
+        return {
+            model: {
+                name: 'Your name',
+                subject: 'Option 1'
+            },
+            schema: [{
+                // input text is default
+                label: 'Name',
+                model: 'name'
+            },{
+                type: 'select',
+                label: 'Subject',
+                model: 'subject',
+                items: ['Option 1', 'Option 2', 'Option 3']
+            },{
+                type: 'textarea',
+                label: 'Message',
+                model: 'message'
+            }]
+        }
     }
 }
 
@@ -255,6 +257,7 @@ But do not worry, we already have the most well-known themes developed:
 In the example below the fields will be generated with the style of **Bootstrap**:
 
 > **Note:** Need to install the bootstrap theme.
+> **Note:** Do not forget to add the style sheets of each theme to the header of the page.
 
 ```bash
 npm install --save @cknow/vfg-theme-bootstrap
@@ -274,18 +277,20 @@ Vue.use(vfg);
 Vue.use(vfgThemeBootstrap); // register bootstrap theme
 
 export default {
-    data: {
-        options: {
-            theme: 'bootstrap' // set theme
-        },
+    data() {
+        return {
+            options: {
+                theme: 'bootstrap' // set theme
+            },
 
-        model: {
-            ...
-        },
+            model: {
+                ...
+            },
 
-        schema: [
-            ...
-        ]
+            schema: [
+                ...
+            ]
+        }
     }
 }
 
@@ -309,6 +314,7 @@ Vue.use(vfg, {
 You can also mix themes and styles if necessary. By placing the theme option in the field you want, you will see in example below:
 
 > **Note:** Need to install the bootstrap and bulma theme.
+> **Note:** Do not forget to add the style sheets of each theme to the header of the page.
 
 ```bash
 npm install --save @cknow/vfg-theme-bootstrap
@@ -331,18 +337,20 @@ Vue.use(vfgThemeBootstrap); // register bootstrap theme
 Vue.use(vfgThemeBulma); // register bulma theme
 
 export default {
-    data: {
-        options: {
-            // default theme is Bootstrap
-            theme: 'bootstrap'
-        },
+    data() {
+        return {
+            options: {
+                // default theme is Bootstrap
+                theme: 'bootstrap'
+            },
 
-        schema: [{
-            label: 'Name with Bootstrap'
-        },{
-            theme: 'bulma' // set Bulma theme
-            label: 'Name with Bulma'
-        }]
+            schema: [{
+                label: 'Name with Bootstrap'
+            },{
+                theme: 'bulma' // set Bulma theme
+                label: 'Name with Bulma'
+            }]
+        }
     }
 }
 
