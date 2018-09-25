@@ -15,7 +15,7 @@ module.exports = {
         'src/**/*.{js,vue}'
     ],
     coverageReporters: [
-        'html',
+        'lcov',
         'text'
     ],
     coverageThreshold: {
