@@ -33,7 +33,7 @@ In the example below will be generated dry fields, that is, without style.
 
 ```html
 <template>
-    <vfg :model="model" :schema="schema" />
+    <vfg :model="model" :schema="schema"></vfg>
 </template>
 
 <script>
@@ -262,7 +262,7 @@ npm install --save @cknow/vfg-theme-bootstrap
 
 ```html
 <template>
-    <vfg :options="options" :model="model" :schema="schema" />
+    <vfg :options="options" :model="model" :schema="schema"></vfg>
 </template>
 
 <script>
@@ -317,7 +317,7 @@ npm install --save @cknow/vfg-theme-bulma
 
 ```html
 <template>
-    <vfg :options="options" :schema="schema" />
+    <vfg :options="options" :schema="schema"></vfg>
 </template>
 
 <script>
