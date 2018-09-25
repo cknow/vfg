@@ -40,8 +40,11 @@ after_success:
 jobs:
   include:
     - stage: release
-      script:
-        - npm install -g semantic-release && semantic-release
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+          - npm install -g semantic-release && semantic-release
 
 branches:
   except:
