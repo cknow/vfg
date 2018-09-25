@@ -1,3 +1,7 @@
+import forEach from 'lodash/forEach';
+import keys from 'lodash/keys';
+import merge from 'lodash/merge';
+
 import VfgComponent from './components/vfg.vue';
 import defaults from './defaults';
 
@@ -8,7 +12,7 @@ export default (Vue, options = {}) => {
 
     const vfg = new Vue({
         data: {
-            options: Object.assign(defaultOptions, options),
+            options: merge(defaultOptions, options),
             themes: {},
             themeDefault: defaults
         },
@@ -25,9 +29,9 @@ export default (Vue, options = {}) => {
             },
 
             addThemes(themes) {
-                for (let [name, config] of Object.entries(themes)) {
+                forEach(themes, function(config, name) {
                     this.addTheme(name, config);
-                }
+                }.bind(this));
             },
 
             getTheme(name) {
@@ -39,7 +43,7 @@ export default (Vue, options = {}) => {
             },
 
             hasTheme(name) {
-                return Object.keys(this.themes).includes(name);
+                return keys(this.themes).includes(name);
             }
         }
     });

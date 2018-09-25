@@ -1,4 +1,5 @@
 import { createLocalVue } from '@vue/test-utils';
+import keys from 'lodash/keys';
 
 import install from '@/install';
 
@@ -9,7 +10,7 @@ describe('defaults -> fields', () => {
     beforeAll(() => {
         localVue = createLocalVue();
         localVue.use(install);
-        fields = Object.keys(localVue.$vfg.$data.themeDefault.fields);
+        fields = keys(localVue.$vfg.$data.themeDefault.fields);
     });
 
     test('has input', () => {
