@@ -2,12 +2,12 @@ import vue from 'rollup-plugin-vue';
 import buble from 'rollup-plugin-buble';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import {uglify} from 'rollup-plugin-uglify';
-import {camelCase, merge} from 'lodash';
+import { uglify } from 'rollup-plugin-uglify';
+import { camelCase, merge } from 'lodash';
 
 import pkg from './package.json';
 
-const name = pkg.name.replace(/^.+\//, '');
+const name = pkg.name.replace(/^.+\//u, '');
 
 const bundle = (file, format, plugins = []) => {
     const base = {
