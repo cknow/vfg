@@ -256,8 +256,7 @@ But do not worry, we already have the most well-known themes developed:
 
 In the example below the fields will be generated with the style of **Bootstrap**:
 
-> **Note:** Need to install the bootstrap theme.
-> **Note:** Do not forget to add the style sheets of each theme to the header of the page.
+> **Note:** Do not forget to add the style sheets of theme to the header of the page.
 
 ```bash
 npm install --save @cknow/vfg-theme-bootstrap
@@ -313,7 +312,6 @@ Vue.use(vfg, {
 
 You can also mix themes and styles if necessary. By placing the theme option in the field you want, you will see in example below:
 
-> **Note:** Need to install the bootstrap and bulma theme.
 > **Note:** Do not forget to add the style sheets of each theme to the header of the page.
 
 ```bash
