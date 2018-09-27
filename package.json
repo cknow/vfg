@@ -67,10 +67,10 @@
     "eslint": "^5.6.0",
     "eslint-plugin-jest": "^21.22.1",
     "eslint-plugin-vue": "^4.7.1",
-    "husky": "^1.0.0-rc.15",
+    "husky": "^1.0.1",
     "jest": "^23.6.0",
     "lodash": "^4.17.11",
-    "postcss": "^7.0.2",
+    "postcss": "^7.0.4",
     "rimraf": "^2.6.2",
     "rollup": "^0.66.2",
     "rollup-plugin-buble": "^0.19.2",
@@ -92,12 +92,5 @@
   "private": false,
   "publishConfig": {
     "access": "public"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -e $GIT_PARAMS",
-      "pre-commit": "npm t",
-      "pre-push": "npm t"
-    }
   }
 }
