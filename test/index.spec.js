@@ -1,9 +1,9 @@
-import Vfg from '@/';
+import vfg from '@/';
 
 describe('module', () => {
     test('properties', () => {
-        expect(Vfg).toBeTruthy();
-        expect(Vfg).toHaveProperty('install');
-        expect(Vfg.install).toBeInstanceOf(Function);
+        expect(vfg).toBeTruthy();
+        expect(vfg).toHaveProperty('install');
+        expect(vfg.install).toBeInstanceOf(Function);
     });
 });
