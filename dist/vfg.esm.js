@@ -4489,7 +4489,7 @@ function getFieldId(schema, options) {
     if ( options === void 0 ) options = {};
 
     var prefix = String(options.id || options.name || options.prefix || '');
-    var id = String(schema.id || schema.label || schema.model || schema.name || '');
+    var id = String(schema.id || schema.model || schema.name || schema.label || '');
 
     return id ? kebabCase_1(prefix + id) : null;
 }

@@ -25,7 +25,7 @@ export function parseObj(obj = {}, args = []) {
 
 export function getFieldId(schema = {}, options = {}) {
     const prefix = String(options.id || options.name || options.prefix || '');
-    const id = String(schema.id || schema.label || schema.model || schema.name || '');
+    const id = String(schema.id || schema.model || schema.name || schema.label || '');
 
     return id ? kebabCase(prefix + id) : null;
 }
