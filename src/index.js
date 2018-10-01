@@ -1,14 +1,14 @@
 import install from './install';
 
-const vfg = {
+const Vfg = {
     install
 };
 
 /* eslint-disable no-undef */
 /* istanbul ignore next */
 if (typeof window !== 'undefined' && window.Vue) {
-    window.Vue.use(vfg);
+    window.Vue.use(Vfg);
 }
 /* eslint-enable no-undef */
 
-export default vfg;
+export default Vfg;

@@ -14,42 +14,40 @@
 </template>
 
 <script>
+    import Container from './container.vue';
 
-import container from './container.vue';
-
-export default {
-    components: {
-        container
-    },
-
-    props: {
-        options: {
-            type: Object,
-            default: () => ({})
+    export default {
+        components: {
+            Container
         },
 
-        model: {
-            type: Object,
-            default: () => ({})
+        props: {
+            options: {
+                type: Object,
+                default: () => ({})
+            },
+
+            model: {
+                type: Object,
+                default: () => ({})
+            },
+
+            schema: {
+                type: Array,
+                default: () => []
+            }
         },
 
-        schema: {
-            type: Array,
-            default: () => []
-        }
-    },
+        computed: {
+            hasSchema() {
+                return this.schema.length > 0;
+            }
+        },
 
-    computed: {
-        hasSchema() {
-            return this.schema.length > 0;
+        methods: {
+            onModelUpdated($this, newValue, oldValue) {
+                this.$emit('model-updated', $this, newValue, oldValue);
+            }
         }
-    },
-
-    methods: {
-        onModelUpdated($this, newValue, oldValue) {
-            this.$emit('model-updated', $this, newValue, oldValue);
-        }
-    }
-};
-
+    };
 </script>

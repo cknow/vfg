@@ -1,4 +1,5 @@
 import { createLocalVue } from '@vue/test-utils';
+
 import install from '@/install';
 
 describe('install', () => {

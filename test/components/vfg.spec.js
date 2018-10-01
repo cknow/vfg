@@ -1,9 +1,9 @@
 import { mount, createLocalVue } from '@vue/test-utils';
 
-import vfg from '@/components/vfg';
+import Vfg from '@/components/vfg';
 import install from '@/install';
 
-describe('components -> vfg', () => {
+describe('components -> Vfg', () => {
     let localVue;
     let wrapper;
 
@@ -13,7 +13,7 @@ describe('components -> vfg', () => {
     });
 
     beforeEach(() => {
-        wrapper = mount(vfg, {
+        wrapper = mount(Vfg, {
             localVue
         });
     });

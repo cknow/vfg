@@ -32,156 +32,154 @@
 </template>
 
 <script>
+    import merge from 'lodash/merge';
+    import { getFieldId, getOptionsByType, parseObj } from '../utils/helpers';
+    import Wrapper from './wrapper.vue';
 
-import merge from 'lodash/merge';
-import { getFieldId, getOptionsByType, parseObj } from '../utils/helpers';
-import wrapper from './wrapper.vue';
+    export default {
+        name: 'container',
 
-export default {
-    name: 'container',
-
-    components: {
-        wrapper
-    },
-
-    props: {
-        options: {
-            type: Object,
-            default: () => ({})
+        components: {
+            Wrapper
         },
 
-        model: {
-            type: Object,
-            default: () => ({})
+        props: {
+            options: {
+                type: Object,
+                default: () => ({})
+            },
+
+            model: {
+                type: Object,
+                default: () => ({})
+            },
+
+            schema: {
+                type: Object,
+                default: () => ({})
+            },
+
+            isGroup: {
+                type: Boolean,
+                default: false
+            },
+
+            isRow: {
+                type: Boolean,
+                default: false
+            }
         },
 
-        schema: {
-            type: Object,
-            default: () => ({})
-        },
+        computed: {
+            schemaParsed() {
+                return parseObj(this.schema, [this]);
+            },
 
-        isGroup: {
-            type: Boolean,
-            default: false
-        },
-
-        isRow: {
-            type: Boolean,
-            default: false
-        }
-    },
-
-    computed: {
-        schemaParsed() {
-            return parseObj(this.schema, [this]);
-        },
-
-        field() {
-            if (this.schemaParsed.group) {
-                return merge(this.config.group, this.schemaParsed);
-            }
-
-            if (this.schemaParsed.row) {
-                return merge(this.config.row, this.schemaParsed);
-            }
-
-            let field = merge(this.config.schema, this.schemaParsed);
-
-            field.id = getFieldId(this.schemaParsed, this.config);
-            field.type = String(field.type || 'input').toLowerCase();
-            field.inputType = String(field.inputType || 'text').toLowerCase();
-            field.wrapper = field.wrapper || { enabled: true };
-
-            return merge({}, field, this.getOptions(field), this.schemaParsed);
-        },
-
-        fieldType() {
-            return `field-${this.field.type}`;
-        },
-
-        config() {
-            const options = parseObj(this.options, [this]);
-            const defaultTheme = this.$vfg ? parseObj(this.$vfg.themeDefault, [this]) : {};
-
-            if (this.schemaParsed.theme === null || this.schemaParsed.theme === false) {
-                return merge({}, defaultTheme, options);
-            }
-
-            let optionsTheme = {};
-            let schemaTheme = {};
-            let themeDefault = {};
-
-            if (this.schemaParsed.theme) {
-                schemaTheme = this.getTheme(this.schemaParsed.theme, options);
-            } else if (options.theme) {
-                optionsTheme = this.getTheme(options.theme, options);
-            } else if (this.$vfg && this.$vfg.options.theme) {
-                themeDefault = this.getTheme(this.$vfg.options.theme, options);
-            }
-
-            return merge({}, defaultTheme, themeDefault, optionsTheme, options, schemaTheme);
-        }
-    },
-
-    created() {
-        if (this.field.group || this.field.row) {
-            return;
-        }
-
-        const component = this.config.fields ? this.config.fields[this.field.type] : null;
-
-        if (component) {
-            this.$options.components[this.fieldType] = component;
-        }
-    },
-
-    methods: {
-        getOptions(field) {
-            let options = getOptionsByType(field, this.config);
-
-            if (this.isGroup && this.config.group) {
-                options = merge(options, getOptionsByType(field, this.config.group));
-            }
-
-            if (this.isRow && this.config.row) {
-                options = merge(options, getOptionsByType(field, this.config.row));
-            }
-
-            if (field.horizontal) {
-                options = merge(options, getOptionsByType(field, this.config.horizontal), field.horizontal);
-            }
-
-            if (field.custom) {
-                let config = this.config.custom;
-
-                if (field.horizontal && this.config.horizontal && this.config.horizontal.custom) {
-                    config = this.config.horizontal.custom;
+            field() {
+                if (this.schemaParsed.group) {
+                    return merge(this.config.group, this.schemaParsed);
                 }
 
-                options = merge(options, getOptionsByType(field, config), field.custom);
-            }
+                if (this.schemaParsed.row) {
+                    return merge(this.config.row, this.schemaParsed);
+                }
 
-            return options;
+                let field = merge(this.config.schema, this.schemaParsed);
+
+                field.id = getFieldId(this.schemaParsed, this.config);
+                field.type = String(field.type || 'input').toLowerCase();
+                field.inputType = String(field.inputType || 'text').toLowerCase();
+                field.wrapper = field.wrapper || { enabled: true };
+
+                return merge({}, field, this.getOptions(field), this.schemaParsed);
+            },
+
+            fieldType() {
+                return `field-${this.field.type}`;
+            },
+
+            config() {
+                const options = parseObj(this.options, [this]);
+                const defaultTheme = this.$vfg ? parseObj(this.$vfg.themeDefault, [this]) : {};
+
+                if (this.schemaParsed.theme === null || this.schemaParsed.theme === false) {
+                    return merge({}, defaultTheme, options);
+                }
+
+                let optionsTheme = {};
+                let schemaTheme = {};
+                let themeDefault = {};
+
+                if (this.schemaParsed.theme) {
+                    schemaTheme = this.getTheme(this.schemaParsed.theme, options);
+                } else if (options.theme) {
+                    optionsTheme = this.getTheme(options.theme, options);
+                } else if (this.$vfg && this.$vfg.options.theme) {
+                    themeDefault = this.getTheme(this.$vfg.options.theme, options);
+                }
+
+                return merge({}, defaultTheme, themeDefault, optionsTheme, options, schemaTheme);
+            }
         },
 
-        getTheme(theme, options) {
-            let obj = {};
-
-            if (this.$vfg && this.$vfg.hasTheme(theme)) {
-                obj = merge(obj, parseObj(this.$vfg.getTheme(theme), [this]));
+        created() {
+            if (this.field.group || this.field.row) {
+                return;
             }
 
-            if (options[theme]) {
-                obj = merge(obj, options[theme]);
-            }
+            const component = this.config.fields ? this.config.fields[this.field.type] : null;
 
-            return obj;
+            if (component) {
+                this.$options.components[this.fieldType] = component;
+            }
         },
 
-        onModelUpdated($this, newValue, oldValue) {
-            this.$emit('model-updated', $this, newValue, oldValue);
+        methods: {
+            getOptions(field) {
+                let options = getOptionsByType(field, this.config);
+
+                if (this.isGroup && this.config.group) {
+                    options = merge(options, getOptionsByType(field, this.config.group));
+                }
+
+                if (this.isRow && this.config.row) {
+                    options = merge(options, getOptionsByType(field, this.config.row));
+                }
+
+                if (field.horizontal) {
+                    options = merge(options, getOptionsByType(field, this.config.horizontal), field.horizontal);
+                }
+
+                if (field.custom) {
+                    let config = this.config.custom;
+
+                    if (field.horizontal && this.config.horizontal && this.config.horizontal.custom) {
+                        config = this.config.horizontal.custom;
+                    }
+
+                    options = merge(options, getOptionsByType(field, config), field.custom);
+                }
+
+                return options;
+            },
+
+            getTheme(theme, options) {
+                let obj = {};
+
+                if (this.$vfg && this.$vfg.hasTheme(theme)) {
+                    obj = merge(obj, parseObj(this.$vfg.getTheme(theme), [this]));
+                }
+
+                if (options[theme]) {
+                    obj = merge(obj, options[theme]);
+                }
+
+                return obj;
+            },
+
+            onModelUpdated($this, newValue, oldValue) {
+                this.$emit('model-updated', $this, newValue, oldValue);
+            }
         }
-    }
-};
-
+    };
 </script>

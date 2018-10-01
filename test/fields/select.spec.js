@@ -1,12 +1,13 @@
 import { shallowMount } from '@vue/test-utils';
-import select from '@/fields/select';
 
-describe('fields -> select', () => {
+import Select from '@/fields/select';
+
+describe('fields -> Select', () => {
     let wrapper;
     let field;
 
     beforeEach(() => {
-        wrapper = shallowMount(select);
+        wrapper = shallowMount(Select);
         field = wrapper.find('select');
     });
 
@@ -137,11 +138,11 @@ describe('fields -> select', () => {
 
             wrapper.setProps({ schema });
 
-            expect(schema.onBlur).not.toBeCalled();
+            expect(schema.onBlur).not.toHaveBeenCalled();
 
             field.trigger('blur');
 
-            expect(schema.onBlur).toBeCalled();
+            expect(schema.onBlur).toHaveBeenCalled();
         });
 
         test('schema onChange event', () => {
@@ -149,11 +150,11 @@ describe('fields -> select', () => {
 
             wrapper.setProps({ schema });
 
-            expect(schema.onChange).not.toBeCalled();
+            expect(schema.onChange).not.toHaveBeenCalled();
 
             field.trigger('change');
 
-            expect(schema.onChange).toBeCalled();
+            expect(schema.onChange).toHaveBeenCalled();
         });
 
         test('schema onFocus event', () => {
@@ -161,11 +162,11 @@ describe('fields -> select', () => {
 
             wrapper.setProps({ schema });
 
-            expect(schema.onFocus).not.toBeCalled();
+            expect(schema.onFocus).not.toHaveBeenCalled();
 
             field.trigger('focus');
 
-            expect(schema.onFocus).toBeCalled();
+            expect(schema.onFocus).toHaveBeenCalled();
         });
 
         test('custom with v-on', () => {
@@ -173,11 +174,11 @@ describe('fields -> select', () => {
 
             wrapper.setProps({ schema: { events: { click: clickHandler } } });
 
-            expect(clickHandler).not.toBeCalled();
+            expect(clickHandler).not.toHaveBeenCalled();
 
             field.trigger('click');
 
-            expect(clickHandler).toBeCalled();
+            expect(clickHandler).toHaveBeenCalled();
         });
     });
 

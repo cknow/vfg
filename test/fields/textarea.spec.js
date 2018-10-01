@@ -1,12 +1,13 @@
 import { shallowMount } from '@vue/test-utils';
-import textarea from '@/fields/textarea';
 
-describe('fields -> textarea', () => {
+import Textarea from '@/fields/textarea';
+
+describe('fields -> Textarea', () => {
     let wrapper;
     let field;
 
     beforeEach(() => {
-        wrapper = shallowMount(textarea);
+        wrapper = shallowMount(Textarea);
         field = wrapper.find('textarea');
     });
 
@@ -158,11 +159,11 @@ describe('fields -> textarea', () => {
 
             wrapper.setProps({ schema });
 
-            expect(schema.onBlur).not.toBeCalled();
+            expect(schema.onBlur).not.toHaveBeenCalled();
 
             field.trigger('blur');
 
-            expect(schema.onBlur).toBeCalled();
+            expect(schema.onBlur).toHaveBeenCalled();
         });
 
         test('schema onChange event', () => {
@@ -170,11 +171,11 @@ describe('fields -> textarea', () => {
 
             wrapper.setProps({ schema });
 
-            expect(schema.onChange).not.toBeCalled();
+            expect(schema.onChange).not.toHaveBeenCalled();
 
             field.trigger('change');
 
-            expect(schema.onChange).toBeCalled();
+            expect(schema.onChange).toHaveBeenCalled();
         });
 
         test('schema onFocus event', () => {
@@ -182,11 +183,11 @@ describe('fields -> textarea', () => {
 
             wrapper.setProps({ schema });
 
-            expect(schema.onFocus).not.toBeCalled();
+            expect(schema.onFocus).not.toHaveBeenCalled();
 
             field.trigger('focus');
 
-            expect(schema.onFocus).toBeCalled();
+            expect(schema.onFocus).toHaveBeenCalled();
         });
 
         test('schema onInput event', () => {
@@ -194,11 +195,11 @@ describe('fields -> textarea', () => {
 
             wrapper.setProps({ schema });
 
-            expect(schema.onInput).not.toBeCalled();
+            expect(schema.onInput).not.toHaveBeenCalled();
 
             field.trigger('input');
 
-            expect(schema.onInput).toBeCalled();
+            expect(schema.onInput).toHaveBeenCalled();
         });
 
         test('custom with v-on', () => {
@@ -206,11 +207,11 @@ describe('fields -> textarea', () => {
 
             wrapper.setProps({ schema: { events: { click: clickHandler } } });
 
-            expect(clickHandler).not.toBeCalled();
+            expect(clickHandler).not.toHaveBeenCalled();
 
             field.trigger('click');
 
-            expect(clickHandler).toBeCalled();
+            expect(clickHandler).toHaveBeenCalled();
         });
     });
 });

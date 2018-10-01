@@ -4620,7 +4620,7 @@ var __vue_staticRenderFns__ = [];
   
 
   
-  var wrapper = __vue_normalize__(
+  var Wrapper = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -4637,7 +4637,7 @@ var script$1 = {
     name: 'container',
 
     components: {
-        wrapper: wrapper
+        Wrapper: Wrapper
     },
 
     props: {
@@ -4824,7 +4824,7 @@ var __vue_staticRenderFns__$1 = [];
   
 
   
-  var container = __vue_normalize__$1(
+  var Container = __vue_normalize__$1(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
@@ -4839,7 +4839,7 @@ var __vue_staticRenderFns__$1 = [];
 
 var script$2 = {
     components: {
-        container: container
+        Container: Container
     },
 
     props: {
@@ -4916,7 +4916,7 @@ var __vue_staticRenderFns__$2 = [];
   
 
   
-  var VfgComponent = __vue_normalize__$2(
+  var Vfg = __vue_normalize__$2(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$2,
     __vue_script__$2,
@@ -5284,7 +5284,7 @@ var __vue_staticRenderFns__$3 = [];
   
 
   
-  var input = __vue_normalize__$3(
+  var Input = __vue_normalize__$3(
     { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
     __vue_inject_styles__$3,
     __vue_script__$3,
@@ -5420,7 +5420,7 @@ var __vue_staticRenderFns__$4 = [];
   
 
   
-  var select = __vue_normalize__$4(
+  var Select = __vue_normalize__$4(
     { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
     __vue_inject_styles__$4,
     __vue_script__$4,
@@ -5481,7 +5481,7 @@ var __vue_staticRenderFns__$5 = [];
   
 
   
-  var textarea = __vue_normalize__$5(
+  var Textarea = __vue_normalize__$5(
     { render: __vue_render__$5, staticRenderFns: __vue_staticRenderFns__$5 },
     __vue_inject_styles__$5,
     __vue_script__$5,
@@ -5493,9 +5493,9 @@ var __vue_staticRenderFns__$5 = [];
   );
 
 var fields = {
-    input: input,
-    select: select,
-    textarea: textarea
+    input: Input,
+    select: Select,
+    textarea: Textarea
 };
 
 var group = {
@@ -5594,7 +5594,7 @@ function install (Vue, options) {
         name: 'vfg'
     };
 
-    var vfg = new Vue({
+    Vue.prototype.$vfg = new Vue({
         data: {
             options: merge_1(defaultOptions, options),
             themes: {},
@@ -5632,19 +5632,18 @@ function install (Vue, options) {
         }
     });
 
-    Vue.$vfg = vfg;
-    Vue.prototype.$vfg = vfg;
-    Vue.component(vfg.options.name, VfgComponent);
+    Vue.$vfg = Vue.prototype.$vfg;
+    Vue.component(Vue.$vfg.options.name, Vfg);
 }
 
-var vfg = {
+var Vfg$1 = {
     install: install
 };
 
 /* eslint-disable no-undef */
 /* istanbul ignore next */
 if (typeof window !== 'undefined' && window.Vue) {
-    window.Vue.use(vfg);
+    window.Vue.use(Vfg$1);
 }
 
-export default vfg;
+export default Vfg$1;

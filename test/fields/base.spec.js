@@ -1,4 +1,5 @@
 import { mount, createLocalVue } from '@vue/test-utils';
+
 import base from '@/fields/base';
 
 const localVue = createLocalVue();
@@ -140,17 +141,17 @@ describe('fields -> base', () => {
         });
 
         test('called the schema.get function', () => {
-            expect(field.schema.get).not.toBeCalled();
+            expect(field.schema.get).not.toHaveBeenCalled();
             expect(field.value).toBe('foo');
-            expect(field.schema.get).toBeCalled();
+            expect(field.schema.get).toHaveBeenCalled();
         });
 
         test('set new value to model if value changed', () => {
-            expect(field.schema.set).not.toBeCalled();
+            expect(field.schema.set).not.toHaveBeenCalled();
 
             field.value = 'bar';
 
-            expect(field.schema.set).toBeCalledWith('bar', 'foo');
+            expect(field.schema.set).toHaveBeenCalledWith('bar', 'foo');
         });
     });
 
@@ -182,11 +183,11 @@ describe('fields -> base', () => {
 
             field.formatValueToModel = () => newValue;
 
-            expect(newValue).not.toBeCalled();
+            expect(newValue).not.toHaveBeenCalled();
 
             field.value = 'baz';
 
-            expect(newValue).toBeCalledWith(newValue, '**!!bar!!**');
+            expect(newValue).toHaveBeenCalledWith(newValue, '**!!bar!!**');
         });
     });
 
@@ -202,11 +203,11 @@ describe('fields -> base', () => {
         });
 
         test('called the schema.onChanged function', () => {
-            expect(schema.onChanged).not.toBeCalled();
+            expect(schema.onChanged).not.toHaveBeenCalled();
 
             field.value = 'foo';
 
-            expect(schema.onChanged).toBeCalledWith('foo', undefined);
+            expect(schema.onChanged).toHaveBeenCalledWith('foo', undefined);
         });
     });
 });

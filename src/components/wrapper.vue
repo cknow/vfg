@@ -90,64 +90,62 @@
 </template>
 
 <script>
+    import merge from 'lodash/merge';
+    import isFunction from 'lodash/isFunction';
 
-import merge from 'lodash/merge';
-import isFunction from 'lodash/isFunction';
+    export default {
+        name: 'wrapper',
 
-export default {
-    name: 'wrapper',
+        props: {
+            options: {
+                type: Object,
+                default: () => ({})
+            },
 
-    props: {
-        options: {
-            type: Object,
-            default: () => ({})
-        },
-
-        field: {
-            type: Object,
-            default: () => ({})
-        }
-    },
-
-    computed: {
-        config() {
-            let config = this.options;
-
-            if (!this.isLabelOrLegend(config)) {
-                return config;
+            field: {
+                type: Object,
+                default: () => ({})
             }
+        },
 
-            const tag = this.getTagConfig(config);
+        computed: {
+            config() {
+                let config = this.options;
 
-            return merge(tag, config, {
-                enabled: config.enabled && Boolean(tag.text || tag.html)
-            });
-        }
-    },
+                if (!this.isLabelOrLegend(config)) {
+                    return config;
+                }
 
-    methods: {
-        isEnabled(obj) {
-            if (isFunction(obj.enabled)) {
-                return obj.enabled.call(this, obj);
+                const tag = this.getTagConfig(config);
+
+                return merge(tag, config, {
+                    enabled: config.enabled && Boolean(tag.text || tag.html)
+                });
             }
-
-            return obj.enabled;
         },
 
-        isLabelOrLegend(config) {
-            return config.isLabel || config.tag === 'label' || config.isLegend || config.tag === 'legend';
-        },
+        methods: {
+            isEnabled(obj) {
+                if (isFunction(obj.enabled)) {
+                    return obj.enabled.call(this, obj);
+                }
 
-        getTagConfig(config) {
-            const tagName = config.isLegend || config.tag === 'legend' ? 'legend' : 'label';
+                return obj.enabled;
+            },
 
-            return {
-                id: this.field.id,
-                text: this.field[tagName],
-                html: this.field[`${tagName}Html`]
-            };
+            isLabelOrLegend(config) {
+                return config.isLabel || config.tag === 'label' || config.isLegend || config.tag === 'legend';
+            },
+
+            getTagConfig(config) {
+                const tagName = config.isLegend || config.tag === 'legend' ? 'legend' : 'label';
+
+                return {
+                    id: this.field.id,
+                    text: this.field[tagName],
+                    html: this.field[`${tagName}Html`]
+                };
+            }
         }
-    }
-};
-
+    };
 </script>

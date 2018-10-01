@@ -1,5 +1,4 @@
 <template>
-
     <textarea
         :class="schema.classes"
         :id="schema.id"
@@ -25,15 +24,12 @@
         @focus="onEvent"
         @input="onEvent"
     />
-
 </template>
 
 <script>
+    import base from './base';
 
-import base from './base';
-
-export default {
-    mixins: [base]
-};
-
+    export default {
+        mixins: [base]
+    };
 </script>

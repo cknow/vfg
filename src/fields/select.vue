@@ -1,5 +1,4 @@
 <template>
-
     <select
         :class="schema.classes"
         :id="schema.id"
@@ -65,89 +64,87 @@
             />
         </template>
     </select>
-
 </template>
 
 <script>
+    import isFunction from 'lodash/isFunction';
+    import isObject from 'lodash/isObject';
+    import merge from 'lodash/merge';
 
-import isFunction from 'lodash/isFunction';
-import isObject from 'lodash/isObject';
-import merge from 'lodash/merge';
-import base from './base';
+    import base from './base';
 
-export default {
-    mixins: [base],
+    export default {
+        mixins: [base],
 
-    computed: {
-        config() {
-            return merge({
-                optionsKey: {
-                    value: 'id',
-                    name: 'name'
-                },
-                noneSelectedText: {
-                    disabled: this.schema.required,
-                    value: null,
-                    name: '---'
+        computed: {
+            config() {
+                return merge({
+                    optionsKey: {
+                        value: 'id',
+                        name: 'name'
+                    },
+                    noneSelectedText: {
+                        disabled: this.schema.required,
+                        value: null,
+                        name: '---'
+                    }
+                }, this.schema.config);
+            },
+
+            items() {
+                const result = [];
+                let items = this.schema.items;
+
+                if (isFunction(items)) {
+                    items = items.call(this);
                 }
-            }, this.schema.config);
-        },
 
-        items() {
-            const result = [];
-            let items = this.schema.items;
+                items = Array.isArray(items) ? items : [];
 
-            if (isFunction(items)) {
-                items = items.call(this);
-            }
+                items.forEach(item => {
+                    if (isObject(item)) {
+                        const { name, value } = merge(this.config.optionsKey, {});
+                        let options = null;
 
-            items = Array.isArray(items) ? items : [];
+                        if (Array.isArray(item.options)) {
+                            options = [];
 
-            items.forEach(item => {
-                if (isObject(item)) {
-                    const { name, value } = merge(this.config.optionsKey, {});
-                    let options = null;
+                            item.options.forEach(option => {
+                                if (isObject(option)) {
+                                    options.push({
+                                        name: option[name],
+                                        value: option[value],
+                                        attrs: option.attrs,
+                                        classes: option.classes,
+                                        disabled: option.disabled
+                                    });
+                                } else {
+                                    options.push({
+                                        name: option,
+                                        value: option
+                                    });
+                                }
+                            });
+                        }
 
-                    if (Array.isArray(item.options)) {
-                        options = [];
-
-                        item.options.forEach(option => {
-                            if (isObject(option)) {
-                                options.push({
-                                    name: option[name],
-                                    value: option[value],
-                                    attrs: option.attrs,
-                                    classes: option.classes,
-                                    disabled: option.disabled
-                                });
-                            } else {
-                                options.push({
-                                    name: option,
-                                    value: option
-                                });
-                            }
+                        result.push({
+                            name: item[name],
+                            value: item[value],
+                            attrs: item.attrs,
+                            classes: item.classes,
+                            disabled: item.disabled,
+                            options
+                        });
+                    } else {
+                        result.push({
+                            name: item,
+                            value: item
                         });
                     }
+                });
 
-                    result.push({
-                        name: item[name],
-                        value: item[value],
-                        attrs: item.attrs,
-                        classes: item.classes,
-                        disabled: item.disabled,
-                        options
-                    });
-                } else {
-                    result.push({
-                        name: item,
-                        value: item
-                    });
-                }
-            });
-
-            return result;
+                return result;
+            }
         }
-    }
-};
-
+    };
 </script>

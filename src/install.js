@@ -2,7 +2,7 @@ import forEach from 'lodash/forEach';
 import keys from 'lodash/keys';
 import merge from 'lodash/merge';
 
-import VfgComponent from './components/vfg.vue';
+import Vfg from './components/vfg.vue';
 import defaults from './defaults';
 
 export default (Vue, options = {}) => {
@@ -10,7 +10,7 @@ export default (Vue, options = {}) => {
         name: 'vfg'
     };
 
-    const vfg = new Vue({
+    Vue.prototype.$vfg = new Vue({
         data: {
             options: merge(defaultOptions, options),
             themes: {},
@@ -48,7 +48,6 @@ export default (Vue, options = {}) => {
         }
     });
 
-    Vue.$vfg = vfg;
-    Vue.prototype.$vfg = vfg;
-    Vue.component(vfg.options.name, VfgComponent);
+    Vue.$vfg = Vue.prototype.$vfg;
+    Vue.component(Vue.$vfg.options.name, Vfg);
 };

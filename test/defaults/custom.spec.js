@@ -1,6 +1,6 @@
 import { mount, createLocalVue } from '@vue/test-utils';
 
-import vfg from '@/components/vfg';
+import Vfg from '@/components/vfg';
 import install from '@/install';
 
 describe('defaults -> custom', () => {
@@ -13,7 +13,7 @@ describe('defaults -> custom', () => {
     });
 
     beforeEach(() => {
-        wrapper = mount(vfg, {
+        wrapper = mount(Vfg, {
             localVue
         });
     });

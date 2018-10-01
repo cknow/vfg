@@ -1,21 +1,22 @@
 import { mount, createLocalVue } from '@vue/test-utils';
-import container from '@/components/container';
-import input from '@/fields/input';
-import select from '@/fields/select';
+
+import Container from '@/components/container';
+import Input from '@/fields/input';
+import Select from '@/fields/select';
 import install from '@/install';
 
-describe('components -> container', () => {
+describe('components -> Container', () => {
     let localVue;
     let wrapper;
 
     beforeAll(() => {
         localVue = createLocalVue();
-        localVue.component('field-input', input);
-        localVue.component('field-select', select);
+        localVue.component('field-input', Input);
+        localVue.component('field-select', Select);
     });
 
     beforeEach(() => {
-        wrapper = mount(container, {
+        wrapper = mount(Container, {
             localVue
         });
     });
@@ -661,7 +662,7 @@ describe('components -> container', () => {
         test('properties defined in global installation', () => {
             localVue.$vfg.options.theme = 'foo';
 
-            wrapper = mount(container, {
+            wrapper = mount(Container, {
                 localVue
             });
 

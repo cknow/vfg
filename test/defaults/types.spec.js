@@ -1,6 +1,6 @@
 import { mount, createLocalVue } from '@vue/test-utils';
 
-import vfg from '@/components/vfg';
+import Vfg from '@/components/vfg';
 import install from '@/install';
 
 describe('defaults -> types', () => {
@@ -13,7 +13,7 @@ describe('defaults -> types', () => {
     });
 
     beforeEach(() => {
-        wrapper = mount(vfg, {
+        wrapper = mount(Vfg, {
             localVue,
             propsData: {
                 schema: [{

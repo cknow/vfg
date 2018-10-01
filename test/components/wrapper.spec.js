@@ -1,8 +1,9 @@
 import { mount } from '@vue/test-utils';
 import merge from 'lodash/merge';
-import wrapperComponent from '@/components/wrapper';
 
-describe('components -> wrapper', () => {
+import Wrapper from '@/components/wrapper';
+
+describe('components -> Wrapper', () => {
     let wrapper = createWrapper();
     let config;
 
@@ -468,7 +469,7 @@ describe('components -> wrapper', () => {
 });
 
 function createWrapper(slot = '<p>slot</p>') {
-    return mount(wrapperComponent, {
+    return mount(Wrapper, {
         scopedSlots: {
             default: slot
         }
@@ -502,7 +503,7 @@ function runBaseTests(wrapper, defaults, selector = 'div', at = 0) {
         const el = element(wrapper);
 
         expect(el.exists()).toBe(false);
-        expect(enabledHandler).toBeCalled();
+        expect(enabledHandler).toHaveBeenCalled();
     });
 
     test('render slot if has option prepend', () => {
@@ -611,10 +612,10 @@ function runBaseTests(wrapper, defaults, selector = 'div', at = 0) {
 
         const el = element(wrapper);
 
-        expect(clickHandler).not.toBeCalled();
+        expect(clickHandler).not.toHaveBeenCalled();
 
         el.trigger('click');
 
-        expect(clickHandler).toBeCalled();
+        expect(clickHandler).toHaveBeenCalled();
     });
 }
