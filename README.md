@@ -37,36 +37,34 @@ In the example below will be generated dry fields, that is, without style.
 </template>
 
 <script>
+    import Vfg from '@cknow/vfg';
 
-import vfg from '@cknow/vfg';
+    Vue.use(Vfg);
 
-Vue.use(vfg);
-
-export default {
-    data() {
-        return {
-            model: {
-                name: 'Your name',
-                subject: 'Option 1'
-            },
-            schema: [{
-                // input text is default
-                label: 'Name',
-                model: 'name'
-            },{
-                type: 'select',
-                label: 'Subject',
-                model: 'subject',
-                items: ['Option 1', 'Option 2', 'Option 3']
-            },{
-                type: 'textarea',
-                label: 'Message',
-                model: 'message'
-            }]
+    export default {
+        data() {
+            return {
+                model: {
+                    name: 'Your name',
+                    subject: 'Option 1'
+                },
+                schema: [{
+                    // input text is default
+                    label: 'Name',
+                    model: 'name'
+                },{
+                    type: 'select',
+                    label: 'Subject',
+                    model: 'subject',
+                    items: ['Option 1', 'Option 2', 'Option 3']
+                },{
+                    type: 'textarea',
+                    label: 'Message',
+                    model: 'message'
+                }]
+            }
         }
     }
-}
-
 </script>
 ```
 
@@ -268,31 +266,29 @@ npm install --save @cknow/vfg-theme-bootstrap
 </template>
 
 <script>
+    import Vfg from '@cknow/vfg';
+    import VfgThemeBootstrap from '@cknow/vfg-theme-bootstrap';
 
-import vfg from '@cknow/vfg';
-import vfgThemeBootstrap from '@cknow/vfg-theme-bootstrap';
+    Vue.use(Vfg);
+    Vue.use(VfgThemeBootstrap); // register bootstrap theme
 
-Vue.use(vfg);
-Vue.use(vfgThemeBootstrap); // register bootstrap theme
+    export default {
+        data() {
+            return {
+                options: {
+                    theme: 'bootstrap' // set theme
+                },
 
-export default {
-    data() {
-        return {
-            options: {
-                theme: 'bootstrap' // set theme
-            },
+                model: {
+                    ...
+                },
 
-            model: {
-                ...
-            },
-
-            schema: [
-                ...
-            ]
+                schema: [
+                    ...
+                ]
+            }
         }
     }
-}
-
 </script>
 ```
 
@@ -301,9 +297,9 @@ export default {
 You can use a global theme, as in the example below:
 
 ```js
-import vfg from '@cknow/vfg';
+import Vfg from '@cknow/vfg';
 
-Vue.use(vfg, {
+Vue.use(Vfg, {
     theme: 'THEME_NAME'
 });
 ```
@@ -325,32 +321,30 @@ npm install --save @cknow/vfg-theme-bulma
 </template>
 
 <script>
+    import Vfg from '@cknow/vfg';
+    import VfgThemeBootstrap from '@cknow/vfg-theme-bootstrap';
+    import VfgThemeBulma from '@cknow/vfg-theme-bulma';
 
-import vfg from '@cknow/vfg';
-import vfgThemeBootstrap from '@cknow/vfg-theme-bootstrap';
-import vfgThemeBulma from '@cknow/vfg-theme-bulma';
+    Vue.use(Vfg);
+    Vue.use(VfgThemeBootstrap); // register bootstrap theme
+    Vue.use(VfgThemeBulma); // register bulma theme
 
-Vue.use(vfg);
-Vue.use(vfgThemeBootstrap); // register bootstrap theme
-Vue.use(vfgThemeBulma); // register bulma theme
+    export default {
+        data() {
+            return {
+                options: {
+                    // default theme is Bootstrap
+                    theme: 'bootstrap'
+                },
 
-export default {
-    data() {
-        return {
-            options: {
-                // default theme is Bootstrap
-                theme: 'bootstrap'
-            },
-
-            schema: [{
-                label: 'Name with Bootstrap'
-            },{
-                theme: 'bulma' // set Bulma theme
-                label: 'Name with Bulma'
-            }]
+                schema: [{
+                    label: 'Name with Bootstrap'
+                },{
+                    theme: 'bulma' // set Bulma theme
+                    label: 'Name with Bulma'
+                }]
+            }
         }
     }
-}
-
 </script>
 ```
