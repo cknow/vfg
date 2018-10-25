@@ -12,26 +12,23 @@ describe('defaults -> group', () => {
         localVue.use(install);
     });
 
-    beforeEach(() => {
-        wrapper = mount(Vfg, {
-            localVue
-        });
-    });
-
     describe('with default', () => {
-        beforeEach(() => {
-            wrapper.setProps({
-                schema: [{
-                    legend: 'Legend',
-                    group: {
-                        fields: [{
-                            label: 'Name'
-                        }, {
-                            label: 'E-mail',
-                            inputType: 'email'
-                        }]
-                    }
-                }]
+        beforeAll(() => {
+            wrapper = mount(Vfg, {
+                localVue,
+                propsData: {
+                    schema: [{
+                        legend: 'Legend',
+                        group: {
+                            fields: [{
+                                label: 'Name'
+                            }, {
+                                label: 'E-mail',
+                                inputType: 'email'
+                            }]
+                        }
+                    }]
+                }
             });
         });
 
@@ -40,8 +37,8 @@ describe('defaults -> group', () => {
             expect(wrapper.is('div')).toBe(true);
             expect(wrapper.findAll('fieldset')).toHaveLength(1);
             expect(wrapper.findAll('fieldset>legend')).toHaveLength(1);
-            expect(wrapper.findAll('fieldset>div>input')).toHaveLength(2);
             expect(wrapper.findAll('fieldset>div>label')).toHaveLength(2);
+            expect(wrapper.findAll('fieldset>div>input')).toHaveLength(2);
         });
 
         test('check header', () => {
@@ -57,9 +54,10 @@ describe('defaults -> group', () => {
             expect(container.is('div')).toBe(true);
 
             expect(container.find('label').exists()).toBe(true);
-            expect(container.find('input').exists()).toBe(true);
-
             expect(container.find('label').attributes().for).toBe('name');
+            expect(container.find('label').text()).toBe('Name');
+
+            expect(container.find('input').exists()).toBe(true);
             expect(container.find('input').attributes().id).toBe('name');
             expect(container.find('input').attributes().type).toBe('text');
         });
@@ -71,34 +69,38 @@ describe('defaults -> group', () => {
             expect(container.is('div')).toBe(true);
 
             expect(container.find('label').exists()).toBe(true);
-            expect(container.find('input').exists()).toBe(true);
-
             expect(container.find('label').attributes().for).toBe('e-mail');
+            expect(container.find('label').text()).toBe('E-mail');
+
+            expect(container.find('input').exists()).toBe(true);
             expect(container.find('input').attributes().id).toBe('e-mail');
             expect(container.find('input').attributes().type).toBe('email');
         });
     });
 
     describe('with custom', () => {
-        beforeEach(() => {
-            wrapper.setProps({
-                schema: [{
-                    group: {
-                        tag: 'ul',
-                        fields: [{
-                            label: 'Name',
-                            wrapper: {
-                                tag: 'li'
-                            }
-                        }, {
-                            label: 'E-mail',
-                            inputType: 'email',
-                            wrapper: {
-                                tag: 'li'
-                            }
-                        }]
-                    }
-                }]
+        beforeAll(() => {
+            wrapper = mount(Vfg, {
+                localVue,
+                propsData: {
+                    schema: [{
+                        group: {
+                            tag: 'ul',
+                            fields: [{
+                                label: 'Name',
+                                wrapper: {
+                                    tag: 'li'
+                                }
+                            }, {
+                                label: 'E-mail',
+                                inputType: 'email',
+                                wrapper: {
+                                    tag: 'li'
+                                }
+                            }]
+                        }
+                    }]
+                }
             });
         });
 
@@ -107,8 +109,8 @@ describe('defaults -> group', () => {
             expect(wrapper.is('div')).toBe(true);
             expect(wrapper.findAll('ul')).toHaveLength(1);
             expect(wrapper.findAll('ul>li')).toHaveLength(2);
-            expect(wrapper.findAll('ul>li>input')).toHaveLength(2);
             expect(wrapper.findAll('ul>li>label')).toHaveLength(2);
+            expect(wrapper.findAll('ul>li>input')).toHaveLength(2);
         });
 
         test('check name field', () => {
@@ -118,9 +120,10 @@ describe('defaults -> group', () => {
             expect(container.is('li')).toBe(true);
 
             expect(container.find('label').exists()).toBe(true);
-            expect(container.find('input').exists()).toBe(true);
-
             expect(container.find('label').attributes().for).toBe('name');
+            expect(container.find('label').text()).toBe('Name');
+
+            expect(container.find('input').exists()).toBe(true);
             expect(container.find('input').attributes().id).toBe('name');
             expect(container.find('input').attributes().type).toBe('text');
         });
@@ -132,9 +135,10 @@ describe('defaults -> group', () => {
             expect(container.is('li')).toBe(true);
 
             expect(container.find('label').exists()).toBe(true);
-            expect(container.find('input').exists()).toBe(true);
-
             expect(container.find('label').attributes().for).toBe('e-mail');
+            expect(container.find('label').text()).toBe('E-mail');
+
+            expect(container.find('input').exists()).toBe(true);
             expect(container.find('input').attributes().id).toBe('e-mail');
             expect(container.find('input').attributes().type).toBe('email');
         });

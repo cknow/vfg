@@ -10,26 +10,24 @@ describe('defaults -> types', () => {
     beforeAll(() => {
         localVue = createLocalVue();
         localVue.use(install);
-    });
 
-    beforeEach(() => {
         wrapper = mount(Vfg, {
             localVue,
             propsData: {
                 schema: [{
-                    label: 'checkbox',
+                    label: 'Checkbox',
                     inputType: 'checkbox'
                 }, {
-                    label: 'radio',
+                    label: 'Radio',
                     inputType: 'radio'
                 }, {
-                    label: 'button',
+                    label: 'Button',
                     inputType: 'button'
                 }, {
-                    label: 'image',
+                    label: 'Image',
                     inputType: 'image'
                 }, {
-                    label: 'submit',
+                    label: 'Submit',
                     inputType: 'submit'
                 }]
             }
@@ -40,8 +38,8 @@ describe('defaults -> types', () => {
         expect(wrapper.exists()).toBe(true);
         expect(wrapper.is('div')).toBe(true);
         expect(wrapper.findAll('div>div')).toHaveLength(5);
-        expect(wrapper.findAll('div>div>input')).toHaveLength(5);
         expect(wrapper.findAll('div>div>label')).toHaveLength(2);
+        expect(wrapper.findAll('div>div>input')).toHaveLength(5);
     });
 
     test('check checkbox field', () => {
@@ -51,9 +49,10 @@ describe('defaults -> types', () => {
         expect(container.is('div')).toBe(true);
 
         expect(container.find('label').exists()).toBe(true);
-        expect(container.find('input').exists()).toBe(true);
-
         expect(container.find('label').attributes().for).toBe('checkbox');
+        expect(container.find('label').text()).toBe('Checkbox');
+
+        expect(container.find('input').exists()).toBe(true);
         expect(container.find('input').attributes().id).toBe('checkbox');
         expect(container.find('input').attributes().type).toBe('checkbox');
     });
@@ -65,9 +64,10 @@ describe('defaults -> types', () => {
         expect(container.is('div')).toBe(true);
 
         expect(container.find('label').exists()).toBe(true);
-        expect(container.find('input').exists()).toBe(true);
-
         expect(container.find('label').attributes().for).toBe('radio');
+        expect(container.find('label').text()).toBe('Radio');
+
+        expect(container.find('input').exists()).toBe(true);
         expect(container.find('input').attributes().id).toBe('radio');
         expect(container.find('input').attributes().type).toBe('radio');
     });
@@ -79,8 +79,8 @@ describe('defaults -> types', () => {
         expect(container.is('div')).toBe(true);
 
         expect(container.find('label').exists()).toBe(false);
-        expect(container.find('input').exists()).toBe(true);
 
+        expect(container.find('input').exists()).toBe(true);
         expect(container.find('input').attributes().type).toBe('button');
     });
 
@@ -91,8 +91,8 @@ describe('defaults -> types', () => {
         expect(container.is('div')).toBe(true);
 
         expect(container.find('label').exists()).toBe(false);
-        expect(container.find('input').exists()).toBe(true);
 
+        expect(container.find('input').exists()).toBe(true);
         expect(container.find('input').attributes().type).toBe('image');
     });
 
@@ -103,8 +103,8 @@ describe('defaults -> types', () => {
         expect(container.is('div')).toBe(true);
 
         expect(container.find('label').exists()).toBe(false);
-        expect(container.find('input').exists()).toBe(true);
 
+        expect(container.find('input').exists()).toBe(true);
         expect(container.find('input').attributes().type).toBe('submit');
     });
 });

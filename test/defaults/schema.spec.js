@@ -10,9 +10,7 @@ describe('defaults -> schema', () => {
     beforeAll(() => {
         localVue = createLocalVue();
         localVue.use(install);
-    });
 
-    beforeEach(() => {
         wrapper = mount(Vfg, {
             localVue,
             propsData: {
@@ -48,10 +46,10 @@ describe('defaults -> schema', () => {
         expect(wrapper.exists()).toBe(true);
         expect(wrapper.is('div')).toBe(true);
         expect(wrapper.findAll('div>div')).toHaveLength(2);
-        expect(wrapper.findAll('div>div>input')).toHaveLength(2);
         expect(wrapper.findAll('div>div>label')).toHaveLength(2);
-        expect(wrapper.findAll('div>div>small')).toHaveLength(1);
+        expect(wrapper.findAll('div>div>input')).toHaveLength(2);
         expect(wrapper.findAll('div>div>span')).toHaveLength(1);
+        expect(wrapper.findAll('div>div>small')).toHaveLength(1);
     });
 
     test('check name field', () => {
@@ -61,13 +59,15 @@ describe('defaults -> schema', () => {
         expect(container.is('div')).toBe(true);
 
         expect(container.find('label').exists()).toBe(true);
-        expect(container.find('input').exists()).toBe(true);
-        expect(container.find('small').exists()).toBe(true);
-        expect(container.find('span').exists()).toBe(false);
-
         expect(container.find('label').attributes().for).toBe('name');
+        expect(container.find('label').text()).toBe('Name');
+
+        expect(container.find('input').exists()).toBe(true);
         expect(container.find('input').attributes().id).toBe('name');
         expect(container.find('input').attributes().type).toBe('text');
+
+        expect(container.find('span').exists()).toBe(false);
+        expect(container.find('small').exists()).toBe(true);
         expect(container.find('small').text()).toBe('Full name');
     });
 
@@ -78,13 +78,15 @@ describe('defaults -> schema', () => {
         expect(container.is('div')).toBe(true);
 
         expect(container.find('label').exists()).toBe(true);
-        expect(container.find('input').exists()).toBe(true);
-        expect(container.find('span').exists()).toBe(true);
-        expect(container.find('small').exists()).toBe(false);
-
         expect(container.find('label').attributes().for).toBe('e-mail');
+        expect(container.find('label').text()).toBe('E-mail');
+
+        expect(container.find('input').exists()).toBe(true);
         expect(container.find('input').attributes().id).toBe('e-mail');
         expect(container.find('input').attributes().type).toBe('email');
+
+        expect(container.find('small').exists()).toBe(false);
+        expect(container.find('span').exists()).toBe(true);
         expect(container.find('span').text()).toBe('E-mail address');
     });
 });
