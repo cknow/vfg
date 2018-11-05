@@ -13,6 +13,7 @@ env:
     - CC_TEST_REPORTER_ID=9395600a9197ece0068481cc325676e3542f1413d3e94658da41fed5a7cf05f9
 
 node_js:
+  - 11
   - 10
   - 9
   - 8
